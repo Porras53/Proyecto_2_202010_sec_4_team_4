@@ -36,65 +36,65 @@ public class Controller {
 			int option = lector.nextInt();
 			switch(option){
 				case 1:
-					System.out.println("--------- \nCrear Arreglo \nDar capacidad inicial del arreglo: ");
+					view.printMessage("--------- \nCrear Arreglo \nDar capacidad inicial del arreglo: ");
 				    int capacidad = lector.nextInt();
 				    modelo = new Modelo(capacidad); 
-					System.out.println("Arreglo Dinamico creado");
-					System.out.println("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
+				    view.printMessage("Arreglo Dinamico creado");
+				    view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
 					break;
 
 				case 2:
-					System.out.println("--------- \nDar cadena (simple) a ingresar: ");
+					view.printMessage("--------- \nDar cadena (simple) a ingresar: ");
 					dato = lector.next();
 					modelo.agregar(dato);
-					System.out.println("Dato agregado");
-					System.out.println("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
+					view.printMessage("Dato agregado");
+					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
 					break;
 
 				case 3:
-					System.out.println("--------- \nDar cadena (simple) a buscar: ");
+					view.printMessage("--------- \nDar cadena (simple) a buscar: ");
 					dato = lector.next();
 					respuesta = modelo.buscar(dato);
 					if ( respuesta != null)
 					{
-						System.out.println("Dato encontrado: "+ respuesta);
+						view.printMessage("Dato encontrado: "+ respuesta);
 					}
 					else
 					{
-						System.out.println("Dato NO encontrado");
+						view.printMessage("Dato NO encontrado");
 					}
-					System.out.println("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
+					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
 					break;
 
 				case 4:
-					System.out.println("--------- \nDar cadena (simple) a eliminar: ");
+					view.printMessage("--------- \nDar cadena (simple) a eliminar: ");
 					dato = lector.next();
 					respuesta = modelo.eliminar(dato);
 					if ( respuesta != null)
 					{
-						System.out.println("Dato eliminado "+ respuesta);
+						view.printMessage("Dato eliminado "+ respuesta);
 					}
 					else
 					{
-						System.out.println("Dato NO eliminado");							
+						view.printMessage("Dato NO eliminado");							
 					}
-					System.out.println("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
+					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
 					break;
 
 				case 5: 
-					System.out.println("--------- \nContenido del Arreglo: ");
+					view.printMessage("--------- \nContenido del Arreglo: ");
 					view.printModelo(modelo);
-					System.out.println("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
+					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
 					break;	
 					
 				case 6: 
-					System.out.println("--------- \n Hasta pronto !! \n---------"); 
+					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 					lector.close();
 					fin = true;
 					break;	
 
 				default: 
-					System.out.println("--------- \n Opcion Invalida !! \n---------");
+					view.printMessage("--------- \n Opcion Invalida !! \n---------");
 					break;
 			}
 		}

@@ -2,16 +2,16 @@ package controller;
 
 import java.util.Scanner;
 
-import model.logic.MVCModelo;
-import view.MVCView;
+import model.logic.Modelo;
+import view.View;
 
 public class Controller {
 
 	/* Instancia del Modelo*/
-	private MVCModelo modelo;
+	private Modelo modelo;
 	
 	/* Instancia de la Vista*/
-	private MVCView view;
+	private View view;
 	
 	/**
 	 * Crear la vista y el modelo del proyecto
@@ -19,8 +19,8 @@ public class Controller {
 	 */
 	public Controller ()
 	{
-		view = new MVCView();
-		modelo = new MVCModelo();
+		view = new View();
+		modelo = new Modelo();
 	}
 		
 	public void run() 
@@ -38,7 +38,7 @@ public class Controller {
 				case 1:
 					System.out.println("--------- \nCrear Arreglo \nDar capacidad inicial del arreglo: ");
 				    int capacidad = lector.nextInt();
-				    modelo = new MVCModelo(capacidad); 
+				    modelo = new Modelo(capacidad); 
 					System.out.println("Arreglo Dinamico creado");
 					System.out.println("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
 					break;

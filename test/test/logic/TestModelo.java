@@ -1,19 +1,19 @@
 package test.logic;
 
 import static org.junit.Assert.*;
-import model.logic.MVCModelo;
+import model.logic.Modelo;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestMVCModelo {
+public class TestModelo {
 	
-	private MVCModelo modelo;
+	private Modelo modelo;
 	private static int CAPACIDAD=100;
 	
 	@Before
 	public void setUp1() {
-		modelo= new MVCModelo(CAPACIDAD);
+		modelo= new Modelo(CAPACIDAD);
 	}
 
 	public void setUp2() {

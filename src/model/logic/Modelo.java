@@ -7,7 +7,7 @@ import model.data_structures.IArregloDinamico;
  * Definicion del modelo del mundo
  *
  */
-public class MVCModelo {
+public class Modelo {
 	/**
 	 * Atributos del modelo del mundo
 	 */
@@ -16,7 +16,7 @@ public class MVCModelo {
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 */
-	public MVCModelo()
+	public Modelo()
 	{
 		datos = new ArregloDinamico(7);
 	}
@@ -25,7 +25,7 @@ public class MVCModelo {
 	 * Constructor del modelo del mundo con capacidad dada
 	 * @param tamano
 	 */
-	public MVCModelo(int capacidad)
+	public Modelo(int capacidad)
 	{
 		datos = new ArregloDinamico(capacidad);
 	}

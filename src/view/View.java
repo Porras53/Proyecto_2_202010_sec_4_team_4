@@ -1,13 +1,13 @@
 package view;
 
-import model.logic.MVCModelo;
+import model.logic.Modelo;
 
-public class MVCView 
+public class View 
 {
 	    /**
 	     * Metodo constructor
 	     */
-	    public MVCView()
+	    public View()
 	    {
 	    	
 	    }
@@ -28,7 +28,7 @@ public class MVCView
 			System.out.println(mensaje);
 		}		
 		
-		public void printModelo(MVCModelo modelo)
+		public void printModelo(Modelo modelo)
 		{
 			// TODO implementar
 		}

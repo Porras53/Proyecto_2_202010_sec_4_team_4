@@ -23,20 +23,19 @@ public class TestModelo {
 	}
 
 	@Test
-	public void testMVCModelo() {
+	public void testModelo() {
 		assertTrue(modelo!=null);
 		assertEquals(0, modelo.darTamano());  // Modelo con 0 elementos presentes.
 	}
 
 	@Test
 	public void testDarTamano() {
-		assertEquals(0, modelo.darTamano());  // Modelo con 0 elementos presentes.
+		// TODO
 	}
 
 	@Test
 	public void testAgregar() {
 		// TODO Completar la prueba
-		
 	}
 
 	@Test

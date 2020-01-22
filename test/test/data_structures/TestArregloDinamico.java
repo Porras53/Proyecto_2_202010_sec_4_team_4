@@ -25,17 +25,13 @@ public class TestArregloDinamico {
 
 	@Test
 	public void testArregloDinamico() {
-		assertTrue(arreglo!=null);
-		assertEquals(0, arreglo.darTamano());
-		assertEquals(TAMANO, arreglo.darCapacidad());
+		// TODO
 	}
 
 	@Test
 	public void testDarElemento() {
 		setUp2();
-		assertEquals("0", arreglo.darElemento(0));
-		assertEquals(""+TAMANO, arreglo.darElemento(TAMANO));
-		assertEquals(""+(TAMANO*2-1), arreglo.darElemento(TAMANO*2-1));
+		// TODO
 	}
 
 }

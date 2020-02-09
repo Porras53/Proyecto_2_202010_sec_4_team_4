@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import model.data_structures.ListaEncadenadaCola;
 import model.data_structures.ListaEncadenadaPila;
+import model.logic.Comparendo;
 import model.logic.Modelo;
 import view.View;
 
@@ -42,6 +43,7 @@ public class Controller {
 			switch(option){
 				case 1:
 				    modelo = new Modelo();
+				    view.printMessage("Cargando los comparendos...");
 				try {
 					modelo.cargar();
 				} catch (FileNotFoundException e) {
@@ -58,12 +60,34 @@ public class Controller {
 					break;
 
 				case 2:
-					view.printMessage("--------- \nDar Object ID del comparendo a consultar: \n---------");
-					int dato = lector.nextInt();
-					view.printMessage("--------- \n"+modelo.darInfoPorID(dato)+"\n---------");						
+					view.printMessage("--------- \nProcesando... \n---------");
+					ListaEncadenadaCola datosCola3=modelo.buscarMayorCluster();	
+					view.printMessage("Numero de comparendos encontrados: "+datosCola3.darLongitud() +" ,con el codigo de infracción:"+((Comparendo)datosCola3.darCabeza()).getInfraccion()+"\n---------");
+					int i=0;
+					while(i<datosCola3.darLongitud())
+					{
+						Comparendo c=(Comparendo) datosCola3.eliminarComienzo();
+						view.printMessage("Comparendo= Codigo Infraccion:"+c.toString2() +"\n---------");
+					}
+					
 					break;
 					
 				case 3:
+					view.printMessage("--------- \n Dar la cantidad de comparendos a procesar: \n---------");
+					int n= lector.nextInt();
+					view.printMessage("--------- \n Dar el codigo de la infraccion a buscar: \n---------");
+					String infraccion=lector.next();
+					view.printMessage("--------- \n Procesando... \n---------");
+					
+					
+					ListaEncadenadaCola datosCola2=modelo.buscarNcomparendosporInfraccion(n, infraccion);
+					view.printMessage("Numero de comparendos encontrados: "+datosCola2.darLongitud() +"\n---------");
+					int i2=0;
+					while(i2<datosCola2.darLongitud())
+					{
+						Comparendo c= (Comparendo) datosCola2.eliminarComienzo();
+						view.printMessage("Comparendo= Codigo Infraccion:"+c.toString2() +"\n---------");
+					}
 					
 					break;
 					

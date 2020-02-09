@@ -31,6 +31,11 @@ public class Comparendo{
 				+ ", infraccion=" + infraccion + ", descripcion de infraccion=" + desinfraccion + ", localidad=" + localidad
 				+ ", coordenadas=" +"Longitud= "+longitud +", Latitud= "+latitud + "]";
 	}
+	public String toString2()
+	{
+		return "Comparendo [ infraccion=" + infraccion+" , id=" + id + ", fecha=" + fecha + ", clase de vehiculo=" + clasevehi + ", tipo de servicio=" + tiposervi
+				 + ", localidad=" + localidad +"]";
+	}
 
 	public int getId() {
 		return id;

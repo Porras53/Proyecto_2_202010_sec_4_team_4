@@ -25,21 +25,40 @@ public class ListaEncadenadaPila <T>
 		topStack=null;
 	}
 	
+	/**
+	 * Da el elemento de la clase generica almacenada en la lista.
+	 * @return Elemento que esta primero en la Lista
+	 */
 	
 	public T darCabeza()
 	{
 		return topStack.darE();
 	}
 	
+	/**
+	 * Retorna el tamaño de la longitud.
+	 * @return longitud lista
+	 */
+	
 	public int darLongitud()
 	{
 		return longitud;
 	}
 	
+	/**
+	 * Dice si la lista esta vacia o no.
+	 * @return true si esta vacia, false de lo contrario
+	 */
+	
 	public boolean esListaVacia()
 	{
 		return topStack==null;
 	}
+	
+	/**
+	 * Inserta un nuvo elemento genérico al principio de la lista.
+	 * @param t2. Elemento nuevo a agregar.
+	 */
 	
 	public void insertarComienzo(T t2)
 	{
@@ -55,8 +74,9 @@ public class ListaEncadenadaPila <T>
 		longitud++;
 	}
 	
-	
-	
+	/**
+	 * Elimina el primer elemento de la lista.
+	 */
 	
 	public T eliminarComienzo()
 	{
@@ -76,6 +96,11 @@ public class ListaEncadenadaPila <T>
 		
 	}
 	
+	/**
+	 * Retorna un objeto de la lista , dado su posición.
+	 * @param n. Posición en la lista.
+	 * @return Elemento de clase génerica.
+	 */
 	
 	public T darObjeto(int pos)
 	{

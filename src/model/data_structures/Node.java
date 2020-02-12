@@ -51,6 +51,11 @@ public class Node <E>
 		return e;
 	}
 	
+	/**
+	 * Permite modificar el elemento contenido en el nodo.
+	 * @param e
+	 */
+	
 	public void cambiarE(E e)
 	{
 		this.e=e;

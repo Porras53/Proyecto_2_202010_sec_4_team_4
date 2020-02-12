@@ -19,8 +19,15 @@ public class Modelo {
 	/**
 	 * Atributos del modelo del mundo
 	 */
+	
+	/**
+	 * Cola de lista encadenada.
+	 */
 	private ListaEncadenadaCola datosCola;
 
+	/**
+	 * Pila de lista encadenada.
+	 */
 
 	private ListaEncadenadaPila datosPila;
 
@@ -86,6 +93,10 @@ public class Modelo {
 	}
 
 
+	/**
+	 * Busca el grupo de mayor longitud con infracción igual de forma consecutiva.
+	 * @return Cola con el grupo con mayor longitud.
+	 */
 	public ListaEncadenadaCola buscarMayorCluster()
 	{
 		ListaEncadenadaCola mayor= new ListaEncadenadaCola();
@@ -122,6 +133,12 @@ public class Modelo {
 
 	}
 
+	/**
+	 * Busca en una n cantidad de comparendos, la cantidad que contienen la infracción pasada por parametro.
+	 * @param n. NUmero de comaprendos a revisar.
+	 * @param infraccion. Código de la infracción.
+	 * @return Cola con los comparendos que tenían la infracción pasada por parametro.
+	 */
 	public ListaEncadenadaCola buscarNcomparendosporInfraccion(int n,String infraccion)
 	{
 		ListaEncadenadaCola colanueva= new ListaEncadenadaCola();

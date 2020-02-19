@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 
 import model.data_structures.ListaEncadenadaCola;
-import model.data_structures.ListaEncadenadaPila;
 import model.logic.Comparendo;
 import model.logic.Modelo;
 import view.View;
@@ -60,32 +59,59 @@ public class Controller {
 
 				case 2:
 					view.printMessage("--------- \nProcesando... \n---------");
-					ListaEncadenadaCola datosCola3=modelo.buscarMayorCluster();	
-					view.printMessage("Numero de comparendos encontrados: "+datosCola3.darLongitud() +" ,con el codigo de infracción:"+((Comparendo)datosCola3.darCabeza()).getInfraccion()+"\n---------");
+					Comparable<Comparendo>[] datos= modelo.copiarComparendos();
+					modelo.shellSort(datos);
+					
+					view.printMessage("Los primeros diez comparendos: \n---------");
 					int i=0;
-					while(i<datosCola3.darLongitud())
+					while(i<10)
 					{
-						Comparendo c=(Comparendo) datosCola3.eliminarComienzo();
-						view.printMessage("Comparendo= Codigo Infraccion:"+c.toString2() +"\n---------");
+						Comparendo c=(Comparendo) datos[i];
+						view.printMessage("Comparendo= Codigo Infraccion:"+c.toString() +"\n---------");
+						i++;
 					}
+					view.printMessage("Los ultimos diez comparendos: \n---------");
+					i=10;
+					while(i>0)
+					{
+						Comparendo c=(Comparendo) datos[(datos.length-1)-i];
+						view.printMessage("Comparendo= Codigo Infraccion:"+c.toString() +"\n---------");
+						i--;
+					}
+							
 					
 					break;
 					
 				case 3:
-					view.printMessage("--------- \n Dar la cantidad de comparendos a procesar: \n---------");
-					int n= lector.nextInt();
-					view.printMessage("--------- \n Dar el codigo de la infraccion a buscar: \n---------");
-					String infraccion=lector.next();
-					view.printMessage("--------- \n Procesando... \n---------");
+					view.printMessage("--------- \nProcesando... \n---------");
+					Comparable<Comparendo>[] datos1= modelo.copiarComparendos();
+					long inicio = System.currentTimeMillis();
+					long inicio2 = System.nanoTime();
+					modelo.sort(datos1);
+					modelo.mergeSort(datos1,0, datos1.length-1);
+					long fin2 = System.nanoTime();
+					long fin3 = System.currentTimeMillis();
+
+					double tiempo = (double) ((fin3 - inicio)/1000);
+					System.out.println((fin2-inicio2)/1.0e9 +" segundos, duró mergeSort.");
+					System.out.println(tiempo +" segundos, duró mergeSort.");
 					
 					
-					ListaEncadenadaCola datosCola2=modelo.buscarNcomparendosporInfraccion(n, infraccion);
-					view.printMessage("Numero de comparendos encontrados: "+datosCola2.darLongitud() +"\n---------");
-					int i2=0;
-					while(i2<datosCola2.darLongitud())
+					view.printMessage("Los primeros diez comparendos: \n---------");
+					i=0;
+					while(i<10)
 					{
-						Comparendo c= (Comparendo) datosCola2.eliminarComienzo();
-						view.printMessage("Comparendo= Codigo Infraccion:"+c.toString2() +"\n---------");
+						Comparendo c=(Comparendo) modelo.getAux()[i];
+						view.printMessage("Comparendo= Codigo Infraccion:"+c.toString() +"\n---------");
+						i++;
+					}
+					view.printMessage("Los ultimos diez comparendos: \n---------");
+					i=10;
+					while(i>0)
+					{
+						Comparendo c=(Comparendo) modelo.getAux()[(modelo.getAux().length-1)-i];
+						view.printMessage("Comparendo= Codigo Infraccion:"+c.toString() +"\n---------");
+						i--;
 					}
 					
 					break;

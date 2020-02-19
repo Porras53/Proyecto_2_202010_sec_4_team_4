@@ -42,6 +42,11 @@ public class ListaEncadenadaCola <T extends Comparable<T>>
 		return cabeza.darE();
 	}
 	
+	public Node<T> darCabeza2()
+	{
+		return cabeza;
+	}
+	
 	/**
 	 * Retorna el tamaño de la longitud.
 	 * @return longitud lista

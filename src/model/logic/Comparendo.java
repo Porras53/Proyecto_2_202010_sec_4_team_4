@@ -98,8 +98,7 @@ public class Comparendo implements Comparable<Comparendo>{
 		// TODO Auto-generated method stub
 		String[] datosreal=fecha.split("/");
 		String[] datos= compa.getFecha().split("/");
-		int año1=Integer.parseInt(datosreal[0]);
-		int año=Integer.parseInt(datos[0]);
+
 		int mes1=Integer.parseInt(datosreal[1]);
 		int mes=Integer.parseInt(datos[1]);
 		int dia1= Integer.parseInt(datosreal[2]);
@@ -107,17 +106,15 @@ public class Comparendo implements Comparable<Comparendo>{
 		
 		int retorno=0;
 		
-		if(año1>año) retorno=1;
-		if(año1<año) retorno=-1;
-		if(mes1>mes) retorno=1;
-		if(mes1<mes) retorno=-1;
-		if(dia1>dia) retorno=1;
-		if(dia1<dia) retorno=-1;
+		if(mes1>mes){ retorno=1;}
+		else if(mes1<mes) {retorno=-1;}
+		else if(dia1>dia) {retorno=1;}
+		else if(dia1<dia) {retorno=-1;}
 		
 		if(retorno==0)
 		{
-			if(id>compa.getId()) retorno=1;
-			if(id<compa.getId()) retorno=-1;
+			if(id>compa.getId()) {retorno=1;}
+			else if(id<compa.getId()) {retorno=-1;}
 		}
 		
 		return retorno;

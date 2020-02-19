@@ -15,8 +15,8 @@ public class View
 		public void printMenu()
 		{
 			System.out.println("1. Cargar comparendos.");
-			System.out.println("2. Buscar el cluster consecutivo más grande.");
-			System.out.println("3. Reportar N comparendos por infracción dada.");
+			System.out.println("2. Organizar datos con shell");
+			System.out.println("3. Organizar datos con MergeSort.");
 			System.out.println("4. Exit");
 			System.out.println("Dar el numero de opcion a resolver, luego oprimir tecla Return: (e.g., 1):");
 		}

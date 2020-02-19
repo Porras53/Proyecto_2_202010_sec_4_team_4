@@ -24,6 +24,8 @@ public class Modelo {
 	 * Cola de lista encadenada.
 	 */
 	private ListaEncadenadaCola datosCola;
+	
+	private static Comparable[] aux;
 
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
@@ -43,7 +45,7 @@ public class Modelo {
 		//Definir mejor la entrada para el lector de json
 		long inicio = System.currentTimeMillis();
 		long inicio2 = System.nanoTime();
-		String dir= "./data/comparendos_dei_2018.geojson";
+		String dir= "./data/comparendos_dei_2018_small.geojson";
 		File archivo= new File(dir);
 		JsonReader reader= new JsonReader( new InputStreamReader(new FileInputStream(archivo)));
 		JsonObject gsonObj0= JsonParser.parseReader(reader).getAsJsonObject();
@@ -78,51 +80,14 @@ public class Modelo {
 		long fin = System.currentTimeMillis();
 
 		double tiempo = (double) ((fin - inicio)/1000);
-		System.out.println((fin2-inicio2)/1.0e9 +" segundos");
-		System.out.println(tiempo +" segundos");
+		System.out.println((fin2-inicio2)/1.0e9 +" segundos, de la carga de datos.");
+		System.out.println(tiempo +" segundos, de la carga de datos.");
 
 
 	}
 
-
-	/**
-	 * Busca el grupo de mayor longitud con infracción igual de forma consecutiva.
-	 * @return Cola con el grupo con mayor longitud.
-	 */
-	public ListaEncadenadaCola buscarMayorCluster()
-	{
-		ListaEncadenadaCola mayor= new ListaEncadenadaCola();
-		ListaEncadenadaCola actual= new ListaEncadenadaCola();
-		int i=0;
-		int a=datosCola.darLongitud();
-		while(i<a)
-		{
-			Comparendo c=(Comparendo) datosCola.eliminarComienzo();
-			
-			if(actual.esListaVacia())
-			{
-				actual.insertarFinal(c);
-			}
-			else{
-
-
-				if(((Comparendo)actual.darUltimo()).getInfraccion().equals(c.getInfraccion()))
-				{
-					actual.insertarFinal(c);
-				}
-				else if(!(((Comparendo)actual.darUltimo()).getInfraccion().equals(c.getInfraccion())))
-				{
-					if(actual.darLongitud()>mayor.darLongitud())
-					{
-						mayor= actual;
-					}
-					actual= new ListaEncadenadaCola();
-				}
-			}
-			i++;
-		}
-		return mayor;
-
+	public static Comparable[] getAux() {
+		return aux;
 	}
 
 	/**
@@ -132,15 +97,16 @@ public class Modelo {
 	public Comparable[] copiarComparendos()
 	{
 		int i=0;
-		Node<Comparendo> puntero=(Node<Comparendo>) datosCola.darCabeza();
-		Comparable<Comparendo>[] arreglo= new Comparable[datosCola.darLongitud()];
+		Node puntero=datosCola.darCabeza2();
+		Comparable[] arreglo= new Comparable[datosCola.darLongitud()];
 		while(i<datosCola.darLongitud())
 		{
-			arreglo[i]=puntero.darE();
+			arreglo[i]= puntero.darE();
 			puntero=puntero.darSiguiente();
 			i++;
 		}
 		return arreglo;
+		
 	}
 	
 	/**
@@ -149,7 +115,7 @@ public class Modelo {
 	
 	private static boolean less(Comparable v,Comparable w)
 	{
-		return v.compareTo(w)<0;
+		return v.compareTo(w) < 0;
 	}
 	
 	private static void exch(Comparable[] datos,int i, int j)
@@ -161,6 +127,8 @@ public class Modelo {
 	
 	public void shellSort(Comparable datos[])
 	{
+		long inicio = System.currentTimeMillis();
+		long inicio2 = System.nanoTime();
 		int N=datos.length;
 		int h=1;
 		while(h<N/3)
@@ -175,69 +143,68 @@ public class Modelo {
 			}
 			h=h/3;
 		}
+		
+		long fin2 = System.nanoTime();
+		long fin = System.currentTimeMillis();
+
+		double tiempo = (double) ((fin - inicio)/1000);
+		System.out.println((fin2-inicio2)/1.0e9 +" segundos, duró shell");
+		System.out.println(tiempo +" segundos, duró shell");
 	}
 	
 	
-	
 	/**
-	 * Busca en una n cantidad de comparendos, la cantidad que contienen la infracción pasada por parametro.
-	 * @param n. NUmero de comaprendos a revisar.
-	 * @param infraccion. Código de la infracción.
-	 * @return Cola con los comparendos que tenían la infracción pasada por parametro.
-	 */
-	public ListaEncadenadaCola buscarNcomparendosporInfraccion(int n,String infraccion)
-	{
-		ListaEncadenadaCola colanueva= new ListaEncadenadaCola();
-		int i=0;
-		if(datosCola.darLongitud()<n)
-		{
-			n=datosCola.darLongitud();
-		}
-		while(i<n)
-		{
-			Comparendo actual=(Comparendo) datosCola.eliminarComienzo();
-			if(actual.getInfraccion().equalsIgnoreCase(infraccion)){
-				colanueva.insertarFinal(actual);
-			}
-			i++;
-		}
-
-		return colanueva;
-	}
-	
-
-
-	/**
-	 * Busca y retorna un comparendo en la lista con el ID dado.
-	 * @param idobject. ID del comparendo.
-	 * @return Información básica del comparendo.
+	 * Requerimiento 3
+	 * @param a
+	 * @param lo
+	 * @param mid
+	 * @param hi
 	 */
 
-	public String darInfoPorID(int idobject)
+	
+	private static void merge(Comparable[] a,int lo, int mid, int hi)
 	{
-		String retorno=null;
-		int cont=0;
-		boolean encontrado= false;
-		while(cont < datosCola.darLongitud() && !encontrado)
+		int i=lo, j= mid+1;
+		for(int k=lo;k<= hi;k++)
 		{
-			Comparendo c= (Comparendo) datosCola.darObjeto(cont);
-			if(c.getId()==idobject)
+			aux[k]=a[k];
+		}
+		for(int k=lo;k<=hi;k++)
+		{
+			if(i >mid)
 			{
-				retorno="ID ="+c.getId()+" ,Fecha = "+c.getFecha()+" ,Infraccion ="+c.getClasevehi()+" ,Tipo de servicio="+c.getTiposervi() +" ,Localidad="+c.getLocalidad();
-				encontrado= true;
+				a[k]=aux[j++];
 			}
-			cont++;
+			else if(j>hi)
+			{
+				a[k]=aux[i++];
+			}
+			else if(less(aux[j],aux[i]))
+			{
+				a[k]=aux[j++];
+			}
+			else
+			{
+				a[k]=aux[i++];
+			}
 		}
-
-		if(retorno==null)
-		{
-			retorno="No existe información acerca del comparendo con ID = "+idobject;
-		}
-
-		return retorno;
-
 	}
-
+	
+	public static void sort(Comparable[] a)
+	{
+		aux= new Comparable[a.length];
+		mergeSort(a,0,a.length-1);
+	}
+	
+	public static void mergeSort(Comparable[] a,int lo, int hi) 
+	{
+		if(hi<=lo) return;
+		int mid=lo+(hi-lo)/2;
+		mergeSort(a,lo,mid);
+		mergeSort(a,mid+1,hi);
+		merge(a,lo,mid,hi);
+	}
+	
 
 	/**
 	 * Servicio de consulta de numero de elementos presentes en el modelo 

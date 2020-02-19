@@ -26,18 +26,11 @@ public class Modelo {
 	private ListaEncadenadaCola datosCola;
 
 	/**
-	 * Pila de lista encadenada.
-	 */
-
-	private ListaEncadenadaPila datosPila;
-
-	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 */
 	public Modelo()
 	{
 		datosCola = new ListaEncadenadaCola();
-		datosPila = new ListaEncadenadaPila();
 	}
 
 	/**
@@ -79,7 +72,6 @@ public class Modelo {
 
 			Comparendo agregar=new Comparendo(objid, fecha, clasevehiculo, tiposervi, infraccion, desinfraccion, localidad, longitud,latitud);
 			datosCola.insertarFinal(agregar);
-			datosPila.insertarComienzo(agregar);
 			i++;
 		}
 		long fin2 = System.nanoTime();
@@ -134,6 +126,60 @@ public class Modelo {
 	}
 
 	/**
+	 * Requerimiento 1
+	 * @return
+	 */
+	public Comparable[] copiarComparendos()
+	{
+		int i=0;
+		Node<Comparendo> puntero=(Node<Comparendo>) datosCola.darCabeza();
+		Comparable<Comparendo>[] arreglo= new Comparable[datosCola.darLongitud()];
+		while(i<datosCola.darLongitud())
+		{
+			arreglo[i]=puntero.darE();
+			puntero=puntero.darSiguiente();
+			i++;
+		}
+		return arreglo;
+	}
+	
+	/**
+	 * Requerimiento 2
+	 */
+	
+	private static boolean less(Comparable v,Comparable w)
+	{
+		return v.compareTo(w)<0;
+	}
+	
+	private static void exch(Comparable[] datos,int i, int j)
+	{
+		Comparable t=datos[i];
+		datos[i]=datos[j];
+		datos[j]=t;
+	}
+	
+	public void shellSort(Comparable datos[])
+	{
+		int N=datos.length;
+		int h=1;
+		while(h<N/3)
+			h=3*h+1;
+		while(h>=1){
+			for(int i=h;i<N;i++)
+			{
+					for(int j=i;j>=h && less(datos[j], datos[j-h]);j-=h)
+					{
+						exch(datos,j,j-h);
+					}
+			}
+			h=h/3;
+		}
+	}
+	
+	
+	
+	/**
 	 * Busca en una n cantidad de comparendos, la cantidad que contienen la infracción pasada por parametro.
 	 * @param n. NUmero de comaprendos a revisar.
 	 * @param infraccion. Código de la infracción.
@@ -143,13 +189,13 @@ public class Modelo {
 	{
 		ListaEncadenadaCola colanueva= new ListaEncadenadaCola();
 		int i=0;
-		if(datosPila.darLongitud()<n)
+		if(datosCola.darLongitud()<n)
 		{
-			n=datosPila.darLongitud();
+			n=datosCola.darLongitud();
 		}
 		while(i<n)
 		{
-			Comparendo actual=(Comparendo) datosPila.eliminarComienzo();
+			Comparendo actual=(Comparendo) datosCola.eliminarComienzo();
 			if(actual.getInfraccion().equalsIgnoreCase(infraccion)){
 				colanueva.insertarFinal(actual);
 			}
@@ -158,6 +204,7 @@ public class Modelo {
 
 		return colanueva;
 	}
+	
 
 
 	/**
@@ -201,10 +248,6 @@ public class Modelo {
 		return datosCola;
 	}
 
-
-	public ListaEncadenadaPila getDatosPila() {
-		return datosPila;
-	}
 
 
 

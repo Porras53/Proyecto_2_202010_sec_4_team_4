@@ -2,7 +2,7 @@ package model.data_structures;
 
 import java.util.Iterator;
 
-public class ListaEncadenadaCola <T>
+public class ListaEncadenadaCola <T extends Comparable<T>>
 {
 	
 	/**

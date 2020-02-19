@@ -51,11 +51,10 @@ public class Controller {
 					e.printStackTrace();
 				}
 				    ListaEncadenadaCola datosCola= (ListaEncadenadaCola) modelo.getDatosCola();
-				    ListaEncadenadaPila datosPila=(ListaEncadenadaPila) modelo.getDatosPila();
 				    
 				    view.printMessage("Lista de Comparendos cargado");
 				    view.printMessage("Primer Comparendo = " + datosCola.darCabeza().toString() + "\n---------");
-				    view.printMessage("Ultimo Comparendo = " + datosPila.darCabeza().toString() + "\n---------");
+				    view.printMessage("Ultimo Comparendo = " + datosCola.darUltimo().toString() + "\n---------");
 				    view.printMessage("Numero de comparendos = " + datosCola.darLongitud() + "\n---------");
 					break;
 

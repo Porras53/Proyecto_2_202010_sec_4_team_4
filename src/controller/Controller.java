@@ -117,6 +117,42 @@ public class Controller {
 					break;
 					
 				case 4: 
+					view.printMessage("--------- \n Procesando... \n---------"); 
+					Comparable<Comparendo>[] datos2= modelo.copiarComparendos();
+					
+					inicio = System.currentTimeMillis();
+					inicio2 = System.nanoTime();
+					modelo.sort2(datos2);
+					modelo.quickSort(datos2, 0, datos2.length-1);
+					
+					fin2 = System.nanoTime();
+					fin3 = System.currentTimeMillis();
+
+					tiempo = (double) ((fin3 - inicio)/1000);
+					System.out.println((fin2-inicio2)/1.0e9 +" segundos, duró QuickSort.");
+					System.out.println(tiempo +" segundos, duró QuickSort.");
+					
+					view.printMessage("Los primeros diez comparendos: \n---------");
+					i=0;
+					while(i<10)
+					{
+						Comparendo c=(Comparendo) datos2[i];
+						view.printMessage("Comparendo= Codigo Infraccion:"+c.toString() +"\n---------");
+						i++;
+					}
+					view.printMessage("Los ultimos diez comparendos: \n---------");
+					i=10;
+					while(i>0)
+					{
+						Comparendo c=(Comparendo) datos2[(datos2.length-1)-i];
+						view.printMessage("Comparendo= Codigo Infraccion:"+c.toString() +"\n---------");
+						i--;
+					}
+					
+					break;		
+					
+					
+				case 5: 
 					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 					lector.close();
 					fin = true;

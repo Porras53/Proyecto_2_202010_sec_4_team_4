@@ -1,9 +1,13 @@
 package model.logic;
 
+import java.awt.List;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
@@ -204,6 +208,52 @@ public class Modelo {
 		mergeSort(a,mid+1,hi);
 		merge(a,lo,mid,hi);
 	}
+	
+	
+	/**
+	 * Requerimiento 4
+	 */
+	
+	private static int partition(Comparable[] a,int lo, int hi)
+	{
+		int i=lo, j=hi+1;
+		Comparable v= a[lo];
+		while(true)
+		{
+			while(less(a[++i],v)) if (i==hi) break;
+			while (less (v, a[--j])) if(j== lo) break;
+			if(i >= j) break;
+			exch(a,i,j);
+		}
+		exch(a,lo,j);
+		return j;
+	}
+	public static void sort2(Comparable[] a)
+	{
+		shuffle(a);
+		quickSort(a,0,a.length-1);
+	}
+	
+	private static void shuffle(Comparable[] a)
+	{
+		Random r= new Random();
+		for(int i= a.length-1;i>0;i--)
+		{
+			int index= r.nextInt(i+1);
+			Comparable a2= a[index];
+			a[index]=a[i];
+			a[i]=a2;
+		}
+	}
+	
+	public static void quickSort(Comparable[] a,int lo,int hi)
+	{
+		if(hi<=lo) return;
+		int j= partition(a,lo,hi);
+		quickSort(a,lo,j-1);
+		quickSort(a,j+1,hi);
+	}
+	
 	
 
 	/**

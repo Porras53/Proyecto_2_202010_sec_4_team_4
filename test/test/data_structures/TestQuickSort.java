@@ -59,7 +59,7 @@ public class TestQuickSort {
 		modelo.quickSort(ascendente);
 		assertEquals(w,ascendente[TAMANO-1]);
 		
-		/**modelo.shellSort(descendente);
+		/**modelo.quickSort(descendente);
 		assertEquals(w,descendente[TAMANO-1]);**/
 		
 		

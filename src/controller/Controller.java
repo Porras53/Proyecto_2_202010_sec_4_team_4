@@ -122,13 +122,13 @@ public class Controller {
 					
 					inicio = System.currentTimeMillis();
 					inicio2 = System.nanoTime();
-					modelo.sort2(datos2);
-					modelo.quickSort(datos2, 0, datos2.length-1);
+					
+					modelo.quickSort(datos2);
 					
 					fin2 = System.nanoTime();
 					fin3 = System.currentTimeMillis();
 
-					tiempo = (double) ((fin3 - inicio)/1000);
+					tiempo = (double) ((fin3-inicio)/1000);
 					System.out.println((fin2-inicio2)/1.0e9 +" segundos, duró QuickSort.");
 					System.out.println(tiempo +" segundos, duró QuickSort.");
 					

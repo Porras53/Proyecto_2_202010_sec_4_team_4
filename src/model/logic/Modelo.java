@@ -228,7 +228,7 @@ public class Modelo {
 		exch(a,lo,j);
 		return j;
 	}
-	public static void sort2(Comparable[] a)
+	public static void quickSort(Comparable[] a)
 	{
 		shuffle(a);
 		quickSort(a,0,a.length-1);

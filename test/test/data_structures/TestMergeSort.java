@@ -29,7 +29,7 @@ public class TestMergeSort {
 		}
 		
 		j=0.0;
-		for(int i=TAMANO-1;i>0;i--)
+		for(int i=TAMANO-1;i>=0;i--)
 		{
 			descendente[i]=j;
 			j+=1.0;
@@ -66,10 +66,10 @@ public class TestMergeSort {
 		assertEquals(w,ascendentee[TAMANO-1]);
 		
 		
-		/**modelo.sort(descendente);
+		modelo.sort(descendente);
 		modelo.mergeSort(descendente, 0, TAMANO-1);
 		Comparable[] descendentee=modelo.getAux();
-		assertEquals(w,descendentee[TAMANO-1]);**/
+		assertEquals(w,descendentee[TAMANO-1]);
 		
 		
 		

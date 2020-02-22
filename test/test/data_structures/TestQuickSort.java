@@ -29,7 +29,7 @@ public class TestQuickSort {
 		}
 		
 		j=0.0;
-		for(int i=TAMANO-1;i>0;i--)
+		for(int i=TAMANO-1;i>=0;i--)
 		{
 			descendente[i]=j;
 			j+=1.0;
@@ -59,8 +59,8 @@ public class TestQuickSort {
 		modelo.quickSort(ascendente);
 		assertEquals(w,ascendente[TAMANO-1]);
 		
-		/**modelo.quickSort(descendente);
-		assertEquals(w,descendente[TAMANO-1]);**/
+		modelo.quickSort(descendente);
+		assertEquals(w,descendente[TAMANO-1]);
 		
 		
 		

@@ -29,11 +29,12 @@ public class TestShellSort {
 		}
 		
 		j=0.0;
-		for(int i=TAMANO-1;i>0;i--)
+		for(int i=TAMANO-1;i>=0;i--)
 		{
 			descendente[i]=j;
 			j+=1.0;
 		}
+		System.out.println(descendente[0] +" , "+ descendente[TAMANO-1] + descendente.length);
 		
 		for(int i=0;i<TAMANO;i++)
 		{
@@ -58,8 +59,8 @@ public class TestShellSort {
 		assertEquals(mayor,aleatorio[TAMANO-1]);
 		modelo.shellSort(ascendente);
 		assertEquals(w,ascendente[TAMANO-1]);
-		/**modelo.shellSort(descendente);
-		assertEquals(w,descendente[TAMANO-1]);**/
+		modelo.shellSort(descendente);
+		assertEquals(w,descendente[TAMANO-1]);
 		
 		
 		

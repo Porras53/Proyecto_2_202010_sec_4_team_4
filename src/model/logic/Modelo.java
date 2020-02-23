@@ -13,7 +13,6 @@ import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 
 import model.data_structures.*;
-import sun.misc.IOUtils;
 
 /**
  * Definicion del modelo del mundo
@@ -152,8 +151,8 @@ public class Modelo {
 		long fin = System.currentTimeMillis();
 
 		double tiempo = (double) ((fin - inicio)/1000);
-		System.out.println((fin2-inicio2)/1.0e9 +" segundos, duró shell");
-		System.out.println(tiempo +" segundos, duró shell");
+		System.out.println((fin2-inicio2)/1.0e9 +" segundos, durï¿½ shell");
+		System.out.println(tiempo +" segundos, durï¿½ shell");
 	}
 	
 	

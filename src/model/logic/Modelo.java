@@ -49,7 +49,7 @@ public class Modelo {
 		//Definir mejor la entrada para el lector de json
 		long inicio = System.currentTimeMillis();
 		long inicio2 = System.nanoTime();
-		String dir= "./data/comparendos_dei_2018_small.geojson";
+		String dir= "./data/comparendos_dei_2018.geojson";
 		File archivo= new File(dir);
 		JsonReader reader= new JsonReader( new InputStreamReader(new FileInputStream(archivo)));
 		JsonObject gsonObj0= JsonParser.parseReader(reader).getAsJsonObject();

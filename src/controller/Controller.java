@@ -60,6 +60,7 @@ public class Controller {
 				case 2:
 					view.printMessage("--------- \nProcesando... \n---------");
 					Comparable<Comparendo>[] datos= modelo.copiarComparendos();
+					view.printMessage("Numero de comparendos = " + datos.length + "\n---------");
 					modelo.shellSort(datos);
 					
 					view.printMessage("Los primeros diez comparendos: \n---------");
@@ -85,6 +86,7 @@ public class Controller {
 				case 3:
 					view.printMessage("--------- \nProcesando... \n---------");
 					Comparable<Comparendo>[] datos1= modelo.copiarComparendos();
+					view.printMessage("Numero de comparendos = " + datos1.length + "\n---------");
 					long inicio = System.currentTimeMillis();
 					long inicio2 = System.nanoTime();
 					modelo.sort(datos1);

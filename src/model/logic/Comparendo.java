@@ -1,39 +1,53 @@
 package model.logic;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Comparendo implements Comparable<Comparendo>{
 
 	private int id;
-	private String fecha;
+	private Date fecha;
+	private String mediodeteccion;
 	private String clasevehi;
 	private String tiposervi;
 	private String infraccion;
 	private String desinfraccion;
 	private String localidad;
+	private String municipio;
 	private double longitud;
 	private double latitud;
 	
-	public Comparendo(int id,String fecha, String clasevehiculo,String tiposervicio,String infraccion,String desinfraccion,String localidad, double longitud,double latitud)
+	public Comparendo(int id,String fecha,String mediodeteccion ,String clasevehiculo,String tiposervicio,String infraccion,String desinfraccion,String localidad,String municipio ,double longitud,double latitud)
 	{
 		this.id= id;
-		this.fecha=fecha;
+		SimpleDateFormat objSDF= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		try {
+			this.fecha=objSDF.parse(fecha);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.mediodeteccion=mediodeteccion;
 		this.clasevehi=clasevehiculo;
 		this.tiposervi=tiposervicio;
 		this.infraccion=infraccion;
 		this.desinfraccion=desinfraccion;
 		this.localidad=localidad;
+		this.municipio=municipio;
 		this.longitud=longitud;
 		this.latitud=latitud;
 	}
 
 	@Override
 	public String toString() {
-		return "Comparendo [id=" + id + ", fecha=" + fecha + ", clase de vehiculo=" + clasevehi + ", tipo de servicio=" + tiposervi
+		return "Comparendo [id=" + id + ", fecha=" + fecha.toString() + ", clase de vehiculo=" + clasevehi + ", tipo de servicio=" + tiposervi
 				+ ", infraccion=" + infraccion + ", descripcion de infraccion=" + desinfraccion + ", localidad=" + localidad
-				+ ", coordenadas=" +"Longitud= "+longitud +", Latitud= "+latitud + "]";
+				+" Municipio="+ municipio +", coordenadas=" +"Longitud= "+longitud +", Latitud= "+latitud + "]";
 	}
 	public String toString2()
 	{
-		return "Comparendo [ infraccion=" + infraccion+" , id=" + id + ", fecha=" + fecha + ", clase de vehiculo=" + clasevehi + ", tipo de servicio=" + tiposervi
+		return "Comparendo [ infraccion=" + infraccion+" , id=" + id + ", fecha=" + fecha.toString() + ", clase de vehiculo=" + clasevehi + ", tipo de servicio=" + tiposervi
 				 + ", localidad=" + localidad +"]";
 	}
 
@@ -46,11 +60,17 @@ public class Comparendo implements Comparable<Comparendo>{
 	}
 
 	public String getFecha() {
-		return fecha;
+		return fecha.toString();
 	}
 
 	public void setFecha(String fecha) {
-		this.fecha = fecha;
+		SimpleDateFormat objSDF= new SimpleDateFormat("aaaa-MM-dd T HH: mm: ss.000Z");
+		try {
+			this.fecha=objSDF.parse(fecha);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String getClasevehi() {
@@ -96,12 +116,12 @@ public class Comparendo implements Comparable<Comparendo>{
 	@Override
 	public int compareTo(Comparendo compa) {
 		// TODO Auto-generated method stub
-		String[] datosreal=fecha.split("/");
+		//String[] datosreal=fecha.split("/");
 		String[] datos= compa.getFecha().split("/");
 
-		int mes1=Integer.parseInt(datosreal[1]);
+		int mes1=2;
 		int mes=Integer.parseInt(datos[1]);
-		int dia1= Integer.parseInt(datosreal[2]);
+		int dia1= 3;
 		int dia= Integer.parseInt(datos[2]);
 		
 		int retorno=0;
@@ -118,6 +138,22 @@ public class Comparendo implements Comparable<Comparendo>{
 		}
 		
 		return retorno;
+	}
+
+	public String getMediodeteccion() {
+		return mediodeteccion;
+	}
+
+	public void setMediodeteccion(String mediodeteccion) {
+		this.mediodeteccion = mediodeteccion;
+	}
+
+	public String getMunicipio() {
+		return municipio;
+	}
+
+	public void setMunicipio(String municipio) {
+		this.municipio = municipio;
 	}
 
 

@@ -50,12 +50,12 @@ public class Controller {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-					MaxColaCP datosCola= (MaxColaCP) modelo.getDatosCola();
+					ListaEncadenadaCola datosCola= (ListaEncadenadaCola) modelo.getDatosCola();
 				    
 				    view.printMessage("Lista de Comparendos cargado");
-				    view.printMessage("Primer Comparendo = " + datosCola.darMax().toString() + "\n---------");
+				    view.printMessage("Primer Comparendo = " + datosCola.darCabeza().toString() + "\n---------");
 				    view.printMessage("Ultimo Comparendo = " + datosCola.darUltimo().toString() + "\n---------");
-				    view.printMessage("Numero de comparendos = " + datosCola.darNumElementos() + "\n---------");
+				    view.printMessage("Numero de comparendos = " + datosCola.darLongitud() + "\n---------");
 					break;
 
 					

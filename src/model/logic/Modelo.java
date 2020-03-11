@@ -26,8 +26,8 @@ public class Modelo {
 	/**
 	 * Cola de lista encadenada.
 	 */
-	private MaxColaCP datosCola;
-	
+	private ListaEncadenadaCola datosCola;
+
 	private static Comparable[] aux;
 
 	/**
@@ -35,7 +35,7 @@ public class Modelo {
 	 */
 	public Modelo()
 	{
-		datosCola = new MaxColaCP();
+		datosCola = new ListaEncadenadaCola<>();
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class Modelo {
 		//Definir mejor la entrada para el lector de json
 		long inicio = System.currentTimeMillis();
 		long inicio2 = System.nanoTime();
-		String dir= "./data/comparendos_dei_2018_small.geojson";
+		String dir= "./data/Comparendos_DEI_2018_Bogotá_D.C.geojson";
 		File archivo= new File(dir);
 		JsonReader reader= new JsonReader( new InputStreamReader(new FileInputStream(archivo)));
 		JsonObject gsonObj0= JsonParser.parseReader(reader).getAsJsonObject();
@@ -64,10 +64,10 @@ public class Modelo {
 			int objid= gsonObjpropiedades.get("OBJECTID").getAsInt();
 			String fecha= gsonObjpropiedades.get("FECHA_HORA").getAsString();
 			String mediodeteccion=gsonObjpropiedades.get("MEDIO_DETECCION").getAsString();
-			String clasevehiculo=gsonObjpropiedades.get("CLASE_VEHI").getAsString();
-			String tiposervi=gsonObjpropiedades.get("TIPO_SERVI").getAsString();
+			String clasevehiculo=gsonObjpropiedades.get("CLASE_VEHICULO").getAsString();
+			String tiposervi=gsonObjpropiedades.get("TIPO_SERVICIO").getAsString();
 			String infraccion=gsonObjpropiedades.get("INFRACCION").getAsString();
-			String desinfraccion=gsonObjpropiedades.get("DES_INFRAC").getAsString();
+			String desinfraccion=gsonObjpropiedades.get("DES_INFRACCION").getAsString();
 			String localidad=gsonObjpropiedades.get("LOCALIDAD").getAsString();
 			String municipio= gsonObjpropiedades.get("MUNICIPIO").getAsString();
 
@@ -78,7 +78,7 @@ public class Modelo {
 			double latitud= gsonArrcoordenadas.get(1).getAsDouble();
 
 			Comparendo agregar=new Comparendo(objid, fecha,mediodeteccion,clasevehiculo, tiposervi, infraccion, desinfraccion, localidad, municipio ,longitud,latitud);
-			datosCola.agregar(agregar);
+			datosCola.insertarFinal(agregar);
 			i++;
 		}
 		long fin2 = System.nanoTime();
@@ -95,7 +95,7 @@ public class Modelo {
 		return aux;
 	}
 
-	public MaxColaCP getDatosCola() {
+	public ListaEncadenadaCola getDatosCola() {
 		return datosCola;
 	}
 

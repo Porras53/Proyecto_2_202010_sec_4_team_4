@@ -23,7 +23,9 @@ public class Comparendo implements Comparable<Comparendo>{
 		this.id= id;
 		SimpleDateFormat objSDF= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 		try {
+			
 			this.fecha=objSDF.parse(fecha);
+			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

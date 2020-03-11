@@ -93,7 +93,8 @@ public class MaxColaCP <T extends Comparable<T>>{
 					ultimo.cambiarSiguiente(node);
 					ultimo=node;
 				}
-			
+				
+				puntero=puntero.darSiguiente();
 			}
 			
 		}

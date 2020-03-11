@@ -21,7 +21,7 @@ public class Comparendo implements Comparable<Comparendo>{
 	public Comparendo(int id,String fecha,String mediodeteccion ,String clasevehiculo,String tiposervicio,String infraccion,String desinfraccion,String localidad,String municipio ,double longitud,double latitud)
 	{
 		this.id= id;
-		SimpleDateFormat objSDF= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		SimpleDateFormat objSDF= new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			this.fecha=objSDF.parse(fecha);
 		} catch (ParseException e) {
@@ -116,28 +116,9 @@ public class Comparendo implements Comparable<Comparendo>{
 	@Override
 	public int compareTo(Comparendo compa) {
 		// TODO Auto-generated method stub
-		//String[] datosreal=fecha.split("/");
-		String[] datos= compa.getFecha().split("/");
-
-		int mes1=2;
-		int mes=Integer.parseInt(datos[1]);
-		int dia1= 3;
-		int dia= Integer.parseInt(datos[2]);
 		
-		int retorno=0;
 		
-		if(mes1>mes){ retorno=1;}
-		else if(mes1<mes) {retorno=-1;}
-		else if(dia1>dia) {retorno=1;}
-		else if(dia1<dia) {retorno=-1;}
-		
-		if(retorno==0)
-		{
-			if(id>compa.getId()) {retorno=1;}
-			else if(id<compa.getId()) {retorno=-1;}
-		}
-		
-		return retorno;
+		return (int) (latitud - compa.latitud);
 	}
 
 	public String getMediodeteccion() {

@@ -28,6 +28,8 @@ public class Modelo {
 	 */
 	private MaxColaCP datosCola;
 	
+	private MaxHeapCP<Comparendo> datosCola2;
+	
 	private static Comparable[] aux;
 
 	/**
@@ -36,6 +38,7 @@ public class Modelo {
 	public Modelo()
 	{
 		datosCola = new MaxColaCP();
+		datosCola2 = new MaxHeapCP<Comparendo>();
 	}
 
 	/**
@@ -43,7 +46,7 @@ public class Modelo {
 	 * @throws FileNotFoundException. Si no encuentra el archivo.
 	 */
 
-	public void cargar() throws FileNotFoundException
+	public void cargarHeap() throws FileNotFoundException
 	{
 		//Definir mejor la entrada para el lector de json
 		long inicio = System.currentTimeMillis();
@@ -63,13 +66,66 @@ public class Modelo {
 			JsonObject gsonObjpropiedades=gsonObj.get("properties").getAsJsonObject();
 			int objid= gsonObjpropiedades.get("OBJECTID").getAsInt();
 			String fecha= gsonObjpropiedades.get("FECHA_HORA").getAsString();
-			String mediodeteccion=gsonObjpropiedades.get("MEDIO_DETECCION").getAsString();
+			//String mediodeteccion=gsonObjpropiedades.get("MEDIO_DETECCION").getAsString();
+			String mediodeteccion = "";
 			String clasevehiculo=gsonObjpropiedades.get("CLASE_VEHI").getAsString();
 			String tiposervi=gsonObjpropiedades.get("TIPO_SERVI").getAsString();
 			String infraccion=gsonObjpropiedades.get("INFRACCION").getAsString();
 			String desinfraccion=gsonObjpropiedades.get("DES_INFRAC").getAsString();
 			String localidad=gsonObjpropiedades.get("LOCALIDAD").getAsString();
-			String municipio= gsonObjpropiedades.get("MUNICIPIO").getAsString();
+			//String municipio= gsonObjpropiedades.get("MUNICIPIO").getAsString();
+			String municipio = "";
+
+			JsonObject gsonObjgeometria=gsonObj.get("geometry").getAsJsonObject();
+
+			JsonArray gsonArrcoordenadas= gsonObjgeometria.get("coordinates").getAsJsonArray();
+			double longitud= gsonArrcoordenadas.get(0).getAsDouble();
+			double latitud= gsonArrcoordenadas.get(1).getAsDouble();
+
+			Comparendo agregar=new Comparendo(objid, fecha,mediodeteccion,clasevehiculo, tiposervi, infraccion, desinfraccion, localidad, municipio ,longitud,latitud);
+			//datosCola.agregar(agregar);
+			datosCola2.agregar(agregar);
+			i++;
+		}
+		long fin2 = System.nanoTime();
+		long fin = System.currentTimeMillis();
+
+		double tiempo = (double) ((fin - inicio)/1000);
+		System.out.println((fin2-inicio2)/1.0e9 +" segundos, de la carga de datos.");
+		System.out.println(tiempo +" segundos, de la carga de datos.");
+
+
+	}
+	
+	public void cargarCola() throws FileNotFoundException
+	{
+		//Definir mejor la entrada para el lector de json
+		long inicio = System.currentTimeMillis();
+		long inicio2 = System.nanoTime();
+		String dir= "./data/comparendos_dei_2018_small.geojson";
+		File archivo= new File(dir);
+		JsonReader reader= new JsonReader( new InputStreamReader(new FileInputStream(archivo)));
+		JsonObject gsonObj0= JsonParser.parseReader(reader).getAsJsonObject();
+
+		JsonArray comparendos=gsonObj0.get("features").getAsJsonArray();
+		int i=0;
+		while(i<comparendos.size())
+		{
+			JsonElement obj= comparendos.get(i);
+			JsonObject gsonObj= obj.getAsJsonObject();
+
+			JsonObject gsonObjpropiedades=gsonObj.get("properties").getAsJsonObject();
+			int objid= gsonObjpropiedades.get("OBJECTID").getAsInt();
+			String fecha= gsonObjpropiedades.get("FECHA_HORA").getAsString();
+			//String mediodeteccion=gsonObjpropiedades.get("MEDIO_DETECCION").getAsString();
+			String mediodeteccion = "";
+			String clasevehiculo=gsonObjpropiedades.get("CLASE_VEHI").getAsString();
+			String tiposervi=gsonObjpropiedades.get("TIPO_SERVI").getAsString();
+			String infraccion=gsonObjpropiedades.get("INFRACCION").getAsString();
+			String desinfraccion=gsonObjpropiedades.get("DES_INFRAC").getAsString();
+			String localidad=gsonObjpropiedades.get("LOCALIDAD").getAsString();
+			//String municipio= gsonObjpropiedades.get("MUNICIPIO").getAsString();
+			String municipio = "";
 
 			JsonObject gsonObjgeometria=gsonObj.get("geometry").getAsJsonObject();
 
@@ -79,6 +135,7 @@ public class Modelo {
 
 			Comparendo agregar=new Comparendo(objid, fecha,mediodeteccion,clasevehiculo, tiposervi, infraccion, desinfraccion, localidad, municipio ,longitud,latitud);
 			datosCola.agregar(agregar);
+			//datosCola2.agregar(agregar);
 			i++;
 		}
 		long fin2 = System.nanoTime();
@@ -99,7 +156,9 @@ public class Modelo {
 		return datosCola;
 	}
 
-	
+	public MaxHeapCP<Comparendo> getHeap() {
+		return datosCola2;
+	}
 
 
 

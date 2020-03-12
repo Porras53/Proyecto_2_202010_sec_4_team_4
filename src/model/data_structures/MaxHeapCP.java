@@ -51,7 +51,7 @@ public class MaxHeapCP <T extends Comparable<T>>
 	
 	public void imprimirDatos() {
 		for(int i = 0; i < darTamano(); i++)
-			System.out.println(arreglo.darElemento(i));
+			System.out.println(arreglo.darElemento(i).toString());
 	}
 	
 	public boolean esHoja(int pos) {
@@ -60,6 +60,10 @@ public class MaxHeapCP <T extends Comparable<T>>
 	
 	public boolean nuloDerecha(int pos) {
 		return 2*pos+2 >= darTamano();
+	}
+
+	public ArregloDinamico<T> getArreglo() {
+		return arreglo;
 	}
 	
 }

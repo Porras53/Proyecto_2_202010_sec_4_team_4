@@ -21,7 +21,7 @@ public class Comparendo implements Comparable<Comparendo>{
 	public Comparendo(int id,String fecha,String mediodeteccion ,String clasevehiculo,String tiposervicio,String infraccion,String desinfraccion,String localidad,String municipio ,double longitud,double latitud)
 	{
 		this.id= id;
-		SimpleDateFormat objSDF= new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat objSDF= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 		try {
 			
 			this.fecha=objSDF.parse(fecha);
@@ -41,8 +41,8 @@ public class Comparendo implements Comparable<Comparendo>{
 		this.latitud=latitud;
 	}
 
-	@Override
-	public String toString() {
+	
+	public String toString3() {
 		return "Comparendo [id=" + id + ", fecha=" + fecha.toString() + ", clase de vehiculo=" + clasevehi + ", tipo de servicio=" + tiposervi
 				+ ", infraccion=" + infraccion + ", descripcion de infraccion=" + desinfraccion + ", localidad=" + localidad
 				+" Municipio="+ municipio +", coordenadas=" +"Longitud= "+longitud +", Latitud= "+latitud + "]";
@@ -52,6 +52,12 @@ public class Comparendo implements Comparable<Comparendo>{
 		return "Comparendo [ infraccion=" + infraccion+" , id=" + id + ", fecha=" + fecha.toString() + ", clase de vehiculo=" + clasevehi + ", tipo de servicio=" + tiposervi
 				 + ", localidad=" + localidad +"]";
 	}
+	@Override
+	public String toString()
+	{
+		return "Comparendo "+": id= "+id+ ",clase vehiculo=" +clasevehi+",latitud= "+latitud+",longitud= "+longitud;
+	}
+
 
 	public int getId() {
 		return id;

@@ -39,6 +39,11 @@ public class MaxColaCP <T extends Comparable<T>>{
 		return cabeza.darE();
 	}
 	
+	public Node darMax2()
+	{
+		return cabeza;
+	}
+	
 	/**
 	 * Retorna el tamaño de la longitud.
 	 * @return longitud lista
@@ -73,18 +78,26 @@ public class MaxColaCP <T extends Comparable<T>>{
 			ultimo=cabeza;
 		}
 		
+		else if(t2.compareTo(cabeza.darE())>0)
+		{
+			node.cambiarSiguiente(cabeza);
+			cabeza=node;
+		}
+		
 		else
 		{	
 			Node puntero= cabeza;
-			while(puntero!=null)
+			boolean agregado=false;
+			while(puntero!=null && !agregado)
 			{
-				Node siguiente= puntero.darSiguiente();
+				Node<T> siguiente= puntero.darSiguiente();
 				if(siguiente!=null)
 				{
 					if(puntero.darE().compareTo(t2) >= 0 && siguiente.darE().compareTo(t2) <= 0)
 					{
 						puntero.cambiarSiguiente(node);
 						node.cambiarSiguiente(siguiente);
+						agregado=true;
 					}
 					
 				}
@@ -92,14 +105,15 @@ public class MaxColaCP <T extends Comparable<T>>{
 				{
 					ultimo.cambiarSiguiente(node);
 					ultimo=node;
+					agregado=true;
 				}
 				
 				puntero=puntero.darSiguiente();
 			}
 			
 		}
-		
 		longitud++;
+		
 	}
 	
 	/**

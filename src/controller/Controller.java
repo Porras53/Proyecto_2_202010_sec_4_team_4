@@ -56,6 +56,7 @@ public class Controller {
 					long finalT2 = System.currentTimeMillis();
 					System.out.println("Tiempo Cola: " + ((finalT2 - inicial2)) + "ms");
 					System.out.println("Elementos: " + modelo.getDatosCola().darLongitud());
+
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

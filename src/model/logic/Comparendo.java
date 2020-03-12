@@ -118,9 +118,13 @@ public class Comparendo implements Comparable<Comparendo>{
 	@Override
 	public int compareTo(Comparendo compa) {
 		// TODO Auto-generated method stub
-		
-		
-		return (int) (latitud - compa.latitud);
+		if(latitud > compa.latitud)
+			return 1;
+		else if(latitud == compa.latitud ) {
+			return 0;
+		} else {
+			return -1;
+		}
 	}
 
 	public String getMediodeteccion() {

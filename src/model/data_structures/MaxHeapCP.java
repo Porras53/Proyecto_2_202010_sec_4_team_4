@@ -36,7 +36,8 @@ public class MaxHeapCP <T extends Comparable<T>>
 		int posicion = 0;
 		while(!esHoja(posicion) && (arreglo.darElemento(posicion).compareTo(arreglo.darElemento(2*posicion+1)) < 0 ||
 				(!nuloDerecha(posicion) && arreglo.darElemento(posicion).compareTo(arreglo.darElemento(2*posicion+2)) < 0))) {
-			if(arreglo.darElemento(posicion).compareTo(arreglo.darElemento(2*posicion+1)) < 0) {
+			if(arreglo.darElemento(posicion).compareTo(arreglo.darElemento(2*posicion+1)) < 0 && (nuloDerecha(posicion) ||
+					arreglo.darElemento(2*posicion+1).compareTo(arreglo.darElemento(2*posicion+2)) > 0)) {
 				arreglo.swap(posicion, 2*posicion+1);
 				posicion = 2*posicion+1;
 			} else {
@@ -45,8 +46,12 @@ public class MaxHeapCP <T extends Comparable<T>>
 			}
 		}
 		
-		
 		return elemento;
+	}
+	
+	public void imprimirDatos() {
+		for(int i = 0; i < darTamano(); i++)
+			System.out.println(arreglo.darElemento(i));
 	}
 	
 	public boolean esHoja(int pos) {

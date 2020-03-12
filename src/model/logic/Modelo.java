@@ -93,7 +93,6 @@ public class Modelo {
 		}
 		long fin2 = System.nanoTime();
 		long fin = System.currentTimeMillis();
-
 		double tiempo = (double) ((fin - inicio)/1000);
 		System.out.println((fin2-inicio2)/1.0e9 +" segundos, de la carga de datos.");
 		System.out.println(tiempo +" segundos, de la carga de datos.");

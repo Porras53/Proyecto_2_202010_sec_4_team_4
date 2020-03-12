@@ -50,10 +50,12 @@ public class Controller {
 					modelo.cargarHeap();
 					long finalT = System.currentTimeMillis();
 					System.out.println("Tiempo Heap: " + ((finalT - inicial)) + "ms");
+					System.out.println("Elementos: " + modelo.getHeap().darTamano());
 					long inicial2 = System.currentTimeMillis();
 					modelo.cargarCola();
 					long finalT2 = System.currentTimeMillis();
-					System.out.println("Tiempo Heap: " + ((finalT2 - inicial2)) + "ms");
+					System.out.println("Tiempo Cola: " + ((finalT2 - inicial2)) + "ms");
+					System.out.println("Elementos: " + modelo.getDatosCola().darLongitud());
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

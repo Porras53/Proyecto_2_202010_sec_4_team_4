@@ -26,10 +26,12 @@ public class Modelo {
 	/**
 	 * Cola de lista encadenada.
 	 */
-	private MaxColaCP datosCola;
 	
 	private MaxHeapCP<Comparendo> datosCola2;
 	
+
+	private ListaEncadenadaCola datosCola;
+
 	private static Comparable[] aux;
 
 	/**
@@ -37,8 +39,10 @@ public class Modelo {
 	 */
 	public Modelo()
 	{
-		datosCola = new MaxColaCP();
+
 		datosCola2 = new MaxHeapCP<Comparendo>();
+
+		datosCola = new ListaEncadenadaCola<>();
 	}
 
 	/**
@@ -51,7 +55,7 @@ public class Modelo {
 		//Definir mejor la entrada para el lector de json
 		long inicio = System.currentTimeMillis();
 		long inicio2 = System.nanoTime();
-		String dir= "./data/comparendos_dei_2018_small.geojson";
+		String dir= "./data/Comparendos_DEI_2018_Bogot�_D.C.geojson";
 		File archivo= new File(dir);
 		JsonReader reader= new JsonReader( new InputStreamReader(new FileInputStream(archivo)));
 		JsonObject gsonObj0= JsonParser.parseReader(reader).getAsJsonObject();
@@ -134,8 +138,8 @@ public class Modelo {
 			double latitud= gsonArrcoordenadas.get(1).getAsDouble();
 
 			Comparendo agregar=new Comparendo(objid, fecha,mediodeteccion,clasevehiculo, tiposervi, infraccion, desinfraccion, localidad, municipio ,longitud,latitud);
-			datosCola.agregar(agregar);
 			//datosCola2.agregar(agregar);
+			datosCola.insertarFinal(agregar);
 			i++;
 		}
 		long fin2 = System.nanoTime();
@@ -152,7 +156,7 @@ public class Modelo {
 		return aux;
 	}
 
-	public MaxColaCP getDatosCola() {
+	public ListaEncadenadaCola getDatosCola() {
 		return datosCola;
 	}
 

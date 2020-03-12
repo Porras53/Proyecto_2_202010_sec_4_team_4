@@ -50,16 +50,20 @@ public class Controller {
 					modelo.cargarHeap();
 					long finalT = System.currentTimeMillis();
 					System.out.println("Tiempo Heap: " + ((finalT - inicial)) + "ms");
+					long inicial2 = System.currentTimeMillis();
+					modelo.cargarCola();
+					long finalT2 = System.currentTimeMillis();
+					System.out.println("Tiempo Heap: " + ((finalT2 - inicial2)) + "ms");
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-					//MaxColaCP datosCola= (MaxColaCP) modelo.getDatosCola();
+					ListaEncadenadaCola datosCola= (ListaEncadenadaCola) modelo.getDatosCola();
 				    
-				    //view.printMessage("Lista de Comparendos cargado");
-				    //view.printMessage("Primer Comparendo = " + datosCola.darMax().toString() + "\n---------");
-				    //view.printMessage("Ultimo Comparendo = " + datosCola.darUltimo().toString() + "\n---------");
-				    //view.printMessage("Numero de comparendos = " + datosCola.darNumElementos() + "\n---------");
+				    view.printMessage("Lista de Comparendos cargado");
+				    view.printMessage("Primer Comparendo = " + datosCola.darCabeza().toString() + "\n---------");
+				    view.printMessage("Ultimo Comparendo = " + datosCola.darUltimo().toString() + "\n---------");
+				    view.printMessage("Numero de comparendos = " + datosCola.darLongitud() + "\n---------");
 					break;
 
 					

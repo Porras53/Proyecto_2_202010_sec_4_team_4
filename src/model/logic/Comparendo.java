@@ -17,6 +17,7 @@ public class Comparendo implements Comparable<Comparendo>{
 	private String municipio;
 	private double longitud;
 	private double latitud;
+	private KeyComparendo llave;
 	
 	public Comparendo(int id,String fecha,String mediodeteccion ,String clasevehiculo,String tiposervicio,String infraccion,String desinfraccion,String localidad,String municipio ,double longitud,double latitud)
 	{
@@ -39,6 +40,7 @@ public class Comparendo implements Comparable<Comparendo>{
 		this.municipio=municipio;
 		this.longitud=longitud;
 		this.latitud=latitud;
+		this.llave= new KeyComparendo(this.fecha,this.clasevehi,this.infraccion);
 	}
 
 	
@@ -147,6 +149,16 @@ public class Comparendo implements Comparable<Comparendo>{
 
 	public void setMunicipio(String municipio) {
 		this.municipio = municipio;
+	}
+
+
+	public KeyComparendo getLlave() {
+		return llave;
+	}
+
+
+	public void setLlave(KeyComparendo llave) {
+		this.llave = llave;
 	}
 
 

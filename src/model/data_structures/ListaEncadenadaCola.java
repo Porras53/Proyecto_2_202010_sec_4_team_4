@@ -1,8 +1,9 @@
 package model.data_structures;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class ListaEncadenadaCola <T extends Comparable<T>>
+public class ListaEncadenadaCola <T extends Comparable<T>> implements Iterable<T>
 {
 	
 	/**
@@ -155,6 +156,31 @@ public class ListaEncadenadaCola <T extends Comparable<T>>
 	{
 		return ultimo.darE();
 	}
+	
+	public Iterator<T> iterator()  {
+        return new LinkedIterator(cabeza);  
+    }
+
+    
+    private class LinkedIterator implements Iterator<T> {
+        private Node<T> current;
+
+        public LinkedIterator(Node<T> first) {
+            current = first;
+        }
+
+        public boolean hasNext()  { return current != null;                     }
+        public void remove()      { throw new UnsupportedOperationException();  }
+
+        public T next() {
+            if (!hasNext()) throw new NoSuchElementException();
+            T item = current.darE();
+            current = current.darSiguiente(); 
+            return item;
+        }
+    }
+
+
 	
 	
 	

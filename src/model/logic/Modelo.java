@@ -27,9 +27,9 @@ public class Modelo {
 	 * Cola de lista encadenada.
 	 */
 	
-	private MaxHeapCP datosCola2;
+	private HashLinearProbing datosCola2;
 	
-	private MaxColaCP datosCola3;
+	private HashSeparateChaining datosCola3;
 	
 	private ListaEncadenadaCola datosCola;
 
@@ -40,10 +40,7 @@ public class Modelo {
 	 */
 	public Modelo()
 	{
-		datosCola3=new MaxColaCP();
-
-		datosCola2 = new MaxHeapCP();
-
+		
 		datosCola = new ListaEncadenadaCola();
 	}
 
@@ -52,9 +49,10 @@ public class Modelo {
 	 * @throws FileNotFoundException. Si no encuentra el archivo.
 	 */
 	
-	public void cargarCola(int n) throws FileNotFoundException
+	public void cargarCola() throws FileNotFoundException
 	{
 		//Definir mejor la entrada para el lector de json
+		
 		long inicio = System.currentTimeMillis();
 		long inicio2 = System.nanoTime();
 		String dir= "./data/Comparendos_DEI_2018_Bogotá_D.C.geojson";
@@ -64,6 +62,10 @@ public class Modelo {
 
 		JsonArray comparendos=gsonObj0.get("features").getAsJsonArray();
 		int i=0;
+		datosCola3=new HashSeparateChaining(comparendos.size());
+
+		datosCola2 = new HashLinearProbing(comparendos.size());
+		
 		while(i<comparendos.size())
 		{
 			JsonElement obj= comparendos.get(i);
@@ -74,10 +76,10 @@ public class Modelo {
 			String fecha= gsonObjpropiedades.get("FECHA_HORA").getAsString();
 			//String mediodeteccion=gsonObjpropiedades.get("MEDIO_DETECCION").getAsString();
 			String mediodeteccion = "";
-			String clasevehiculo=gsonObjpropiedades.get("CLASE_VEHI").getAsString();
-			String tiposervi=gsonObjpropiedades.get("TIPO_SERVI").getAsString();
+			String clasevehiculo=gsonObjpropiedades.get("CLASE_VEHICULO").getAsString();
+			String tiposervi=gsonObjpropiedades.get("TIPO_SERVICIO").getAsString();
 			String infraccion=gsonObjpropiedades.get("INFRACCION").getAsString();
-			String desinfraccion=gsonObjpropiedades.get("DES_INFRAC").getAsString();
+			String desinfraccion=gsonObjpropiedades.get("DES_INFRACCION").getAsString();
 			String localidad=gsonObjpropiedades.get("LOCALIDAD").getAsString();
 			//String municipio= gsonObjpropiedades.get("MUNICIPIO").getAsString();
 			String municipio = "";
@@ -89,90 +91,13 @@ public class Modelo {
 			double latitud= gsonArrcoordenadas.get(1).getAsDouble();
 
 			Comparendo agregar=new Comparendo(objid, fecha,mediodeteccion,clasevehiculo, tiposervi, infraccion, desinfraccion, localidad, municipio ,longitud,latitud);
-			datosCola.insertarFinal(agregar);
+			datosCola2.put(agregar.getLlave(), agregar);
 			i++;
 		}
 		long fin2 = System.nanoTime();
 		long fin = System.currentTimeMillis();
 
 		
-		System.out.println((fin2-inicio2)/1.0e9 +" segundos, de la carga de datos normal.");
-
-		Comparable[] copia=copiarComparendos();
-		shuffle(copia);
-		
-		inicio = System.nanoTime();
-		for(i=0;i<n && i<datosCola.darLongitud();i++)
-		{
-			datosCola2.agregar(copia[i]);
-		}
-		fin = System.nanoTime();
-		System.out.println((fin-inicio)/1.0e9 +" segundos, de la carga de datos en heap.");
-		
-		inicio = System.nanoTime();
-		for(i=0;i<n && i<datosCola.darLongitud();i++)
-		{
-			datosCola3.agregar(copia[i]);
-		}
-		fin = System.nanoTime();
-		System.out.println((fin-inicio)/1.0e9 +" segundos, de la carga de datos en cola.");
-		
-	}
-	
-	
-	public MaxHeapCP requerimientoMaxHeap(int n,String[] clasesvehiculo)
-	{
-		long inicio2 = System.nanoTime();
-		MaxHeapCP retorno=new MaxHeapCP<>();
-		ArregloDinamico heap=datosCola2.getArreglo();
-		int i=0;
-		while(i<clasesvehiculo.length)
-		{
-			String clase= clasesvehiculo[i];
-			int j=0;
-			while(j<n && j<datosCola2.darTamano())
-			{
-				if(((Comparendo)heap.darElemento(j)).getClasevehi().equalsIgnoreCase(clase.trim()))
-				{
-					retorno.agregar(heap.darElemento(j));
-				}
-				j++;
-			}
-			
-			i++;
-		}
-		long fin2 = System.nanoTime();
-		System.out.println((fin2-inicio2)/1.0e9 +" segundos, del requerimiento en MaxHeap.");
-		return retorno;
-	}
-	
-	
-	public MaxColaCP requerimientoMaxCola(int n,String[] clasesvehiculo)
-	{
-		long inicio2 = System.nanoTime();
-		MaxColaCP retorno=new MaxColaCP<>();
-		
-		int i=0;
-		while(i<clasesvehiculo.length)
-		{
-			String clase= clasesvehiculo[i];
-			Node puntero=datosCola3.darMax2();
-			int j=0;
-			while(j<n && j<datosCola3.darNumElementos() && puntero!=null)
-			{
-				if(((Comparendo)puntero.darE()).getClasevehi().equalsIgnoreCase(clase.trim()))
-				{
-					retorno.agregar(puntero.darE());
-				}
-				puntero=puntero.darSiguiente();
-				j++;
-			}
-			
-			i++;
-		}
-		long fin2 = System.nanoTime();
-		System.out.println((fin2-inicio2)/1.0e9 +" segundos, del requerimiento en MaxCola.");
-		return retorno;
 	}
 	
 	
@@ -211,9 +136,15 @@ public class Modelo {
 		return datosCola;
 	}
 
-	public MaxHeapCP getHeap() {
+	public HashLinearProbing getDatosCola2() {
 		return datosCola2;
 	}
+
+	public HashSeparateChaining getDatosCola3() {
+		return datosCola3;
+	}
+
+
 
 
 

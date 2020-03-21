@@ -2,17 +2,26 @@ package model.data_structures;
 
 import java.util.Iterator;
 
-public class HashSeparateChaining <K extends Comparable<K>, V> {
+public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable<V>> {
 
 	private int tamActual;
 	private int tamTotal;
     private NodoHash<K,V>[] nodos;
     private int factorCargaMaximo;
+    private int contrehash;
 	
+    
+    public HashSeparateChaining() 
+    {
+    	this(4);
+    }
+    
+    
 	public HashSeparateChaining( int max ){
-	max=tamTotal;
+	tamTotal=max;
 	factorCargaMaximo=5;
 	tamActual=0;
+	contrehash=0;
 	nodos=  new NodoHash[max];
 	}
 	
@@ -53,8 +62,10 @@ public class HashSeparateChaining <K extends Comparable<K>, V> {
 			V valorActual = get(keyActuak);
 			nuevatabla.put(keyActuak, valorActual);
 		}
+		
 		tamTotal = 5* tamTotal;
 		nodos  = nuevatabla.getNodos();
+		++contrehash;
 		
 		
 		
@@ -78,6 +89,18 @@ public class HashSeparateChaining <K extends Comparable<K>, V> {
 		
 		// TODO Auto-generated method stub
 		return (key.hashCode() & 0x7fffffff)%tamTotal;
+	}
+
+	public int getTamActual() {
+		return tamActual;
+	}
+
+	public int getTamTotal() {
+		return tamTotal;
+	}
+
+	public int getContrehash() {
+		return contrehash;
 	}
 	
 }

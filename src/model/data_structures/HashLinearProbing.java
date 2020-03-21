@@ -3,17 +3,23 @@ package model.data_structures;
 import model.logic.KeyComparendo;
 import sun.misc.Queue;
 
-public class HashLinearProbing<K extends Comparable<K>, V> {
+public class HashLinearProbing<K extends Comparable<K>, V extends Comparable<V>> {
 	
 	private int n;           // number of key-value pairs in the symbol table
     private int m;           // size of linear probing table
     private NodoHash<K,V>[] nodos;
+    private int contrehash;
+    
+    public HashLinearProbing() {
+        this(4);
+    }
     
     public HashLinearProbing (int capacidad) 
     {
     	m = capacidad;
         n = 0;
         nodos= new NodoHash[m];
+        contrehash=0;
     }
     
  
@@ -44,6 +50,7 @@ public class HashLinearProbing<K extends Comparable<K>, V> {
         }
         nodos = temp.nodos;
         m    = temp.m;
+        ++contrehash;
     }
     
     public void put(K key, V val) {
@@ -57,36 +64,38 @@ public class HashLinearProbing<K extends Comparable<K>, V> {
         // double table size if 50% full
         if (n >= m/2) resize(2*m);
         
-        int i= hash(key);
+        int i=hash(key);
         
-        if(nodos[i]==null) 
-        {
-        	nodos[i]=new NodoHash(key,val);
-        }
-        else {
+     if(nodos[i]==null) {
+    	 nodos[i]=new NodoHash(key,val);
+     }
+     else if(nodos[i]!=null){
+    	 boolean agregado=false;
+    	 boolean posencontrada=false;
+        for (;!agregado; i = (i + 1) % m) {
         	
-        for (; nodos[i]!= null; i = (i + 1) % m) {
-        	if(nodos[i].darE()!=null){
-        		
-            if (nodos[i].darE().equals(key)) {
-                nodos[i].cambiarV(val);
-                return;
-            }
-            
-        	}
+            	   if(nodos[i]==null) 
+            	   {
+            		   nodos[i]=new NodoHash(key,val);
+            		   agregado=true;
+            	   }
         }
+     }
+     
         
-        nodos[i]=new NodoHash(key,val);
-        
-        }
         n++;
     }
     
     public V get(K key) {
         if (key == null) throw new IllegalArgumentException("argument to get() is null");
-        for (int i = hash(key); nodos[i].darE() != null; i = (i + 1) % m)
+        
+        for (int i = hash(key); nodos[i]!= null; i = (i + 1) % m)
+        
+        if(nodos[i].darE()!=null)
             if (nodos[i].darE().equals(key))
                 return nodos[i].darv();
+        
+        
         return null;
     }
     
@@ -116,16 +125,52 @@ public class HashLinearProbing<K extends Comparable<K>, V> {
             put(keyToRehash, valToRehash);
             i = (i + 1) % m;
         }
-
+        
         n--;
+        
+        if (n > 0 && n <= m/8) resize(m/2);
+
+        assert check();
+
+        
     }
     
     public Iterable<K> keys() {
-        ListaEncadenadaCola<K> queue = new ListaEncadenadaCola<K>();
+        ListaDoblementeEncadenada<K> queue = new ListaDoblementeEncadenada<K>();
         for (int i = 0; i < m; i++)
             if (nodos[i].darE() != null) queue.insertarFinal(nodos[i].darE());
         return queue;
     }
+
+
+	public NodoHash<K, V>[] getNodos() {
+		return nodos;
+	}
+	
+	private boolean check() {
+
+        // check that hash table is at most 50% full
+        if (m < 2*n) {
+            System.err.println("Hash table size m = " + m + "; array size n = " + n);
+            return false;
+        }
+
+        // check that each key in table can be found by get()
+        for (int i = 0; i < m; i++) {
+        	
+            if (nodos[i] == null) continue;
+            else if (get(nodos[i].darE()) != nodos[i].darv()) {
+                System.err.println("get[" + nodos[i].darE() + "] = " + get(nodos[i].darE()) + "; vals[i] = " + nodos[i].darv());
+                return false;
+            	}
+        	
+        }
+        return true;
+    }
+
+	public int getContrehash() {
+		return contrehash;
+	}
     
     
     

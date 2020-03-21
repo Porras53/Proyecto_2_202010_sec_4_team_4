@@ -12,6 +12,8 @@ public class Node <E extends Comparable<E>>
 	 */
 	private Node siguiente;
 	
+	private Node anterior;
+	
 	/**
 	 * 	Método Constructor
 	 * @param t2. Elemento que se almacenera en nodo.
@@ -20,6 +22,7 @@ public class Node <E extends Comparable<E>>
 	{
 		e=t2;
 		siguiente=null;
+		anterior=null;
 	}
 	
 	/**
@@ -61,5 +64,13 @@ public class Node <E extends Comparable<E>>
 		this.e=e;
 	}
 
+	public Node darAnterior() {
+		return anterior;
+	}
+
+	public void cambiarAnterior(Node anterior) {
+		this.anterior = anterior;
+	}
+	
 	
 }

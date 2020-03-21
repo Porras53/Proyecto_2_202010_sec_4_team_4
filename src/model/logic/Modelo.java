@@ -5,8 +5,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Random;
 
 import com.google.gson.*;
@@ -30,8 +33,6 @@ public class Modelo {
 	private HashLinearProbing datosCola2;
 	
 	private HashSeparateChaining datosCola3;
-	
-	private ListaEncadenadaCola datosCola;
 
 	private static Comparable[] aux;
 
@@ -41,7 +42,7 @@ public class Modelo {
 	public Modelo()
 	{
 		
-		datosCola = new ListaEncadenadaCola();
+		datosCola2 = new HashLinearProbing();
 	}
 
 	/**
@@ -64,8 +65,9 @@ public class Modelo {
 		int i=0;
 		datosCola3=new HashSeparateChaining(comparendos.size());
 
-		datosCola2 = new HashLinearProbing(comparendos.size());
 		
+		System.out.println("El tamaño inicial del linear hash : "+datosCola2.getNodos().length);
+		System.out.println("El tamaño inicial del separate hash : "+datosCola3.getNodos().length);
 		while(i<comparendos.size())
 		{
 			JsonElement obj= comparendos.get(i);
@@ -92,29 +94,148 @@ public class Modelo {
 
 			Comparendo agregar=new Comparendo(objid, fecha,mediodeteccion,clasevehiculo, tiposervi, infraccion, desinfraccion, localidad, municipio ,longitud,latitud);
 			datosCola2.put(agregar.getLlave(), agregar);
+			datosCola3.put(agregar.getLlave(), agregar);
 			i++;
 		}
 		long fin2 = System.nanoTime();
 		long fin = System.currentTimeMillis();
-
+		
+		System.out.println("El tamaño final del linear hash : "+datosCola2.getNodos().length);
+		System.out.println("El tamaño final del separate hash : "+datosCola3.getNodos().length);
+		System.out.println((fin2-inicio2)/1.0e9 +" segundos, de la carga de datos normal.");
+		
 		
 	}
 	
-	
-	public Comparable[] copiarComparendos()
+	public ListaDoblementeEncadenada requerimiento1Linear(Date fe, String clasevehicu,String infra) 
 	{
-		int i=0;
-		Node puntero=datosCola.darCabeza2();
-		Comparable[] arreglo= new Comparable[datosCola.darLongitud()];
-		while(i<datosCola.darLongitud())
+		ListaDoblementeEncadenada retorno=new ListaDoblementeEncadenada();
+		KeyComparendo nuevo= new KeyComparendo(fe,clasevehicu,infra);
+		NodoHash[] nodos=datosCola2.getNodos();
+		for(int i=0;i<nodos.length;i++) 
 		{
-			arreglo[i]= puntero.darE();
-			puntero=puntero.darSiguiente();
-			i++;
+			if(nodos[i]!=null) 
+			{
+				if((nodos[i].darE()).equals(nuevo)) 
+				{
+					retorno.insertarFinal(nodos[i].darv());
+				}
+			}
 		}
 		
-		return arreglo;
+		Comparable[] copia= copiar(retorno);
+		retorno= new ListaDoblementeEncadenada();
+		shellSortMenoraMayor(copia);
+		pegar(copia, retorno);
+		
+		return retorno;
 	}
+	
+	public ListaDoblementeEncadenada requerimiento1Separate(Date fe, String clasevehicu,String infra) 
+	{
+		ListaDoblementeEncadenada retorno=new ListaDoblementeEncadenada();
+		KeyComparendo nuevo= new KeyComparendo(fe,clasevehicu,infra);
+		NodoHash[] nodos=datosCola3.getNodos();
+		for(int i=0;i<nodos.length;i++) 
+		{
+			if(nodos[i]!=null) 
+			{
+				if((nodos[i].darE()).equals(nuevo)) 
+				{
+					retorno.insertarFinal(nodos[i].darv());
+				}
+			}
+		}
+		
+		Comparable[] copia= copiar(retorno);
+		retorno= new ListaDoblementeEncadenada();
+		shellSortMenoraMayor(copia);
+		pegar(copia, retorno);
+		
+		return retorno;
+	}
+	
+	
+	public void requerimiento3() 
+	{
+		ListaDoblementeEncadenada nuevo= new ListaDoblementeEncadenada();
+		NodoHash[] nodos=datosCola2.getNodos();
+		for(int i=0; i<nodos.length;i++) 
+		{
+			if(nodos[i]!=null) 
+			{
+				nuevo.insertarFinal(nodos[i].darE());
+			}
+		}
+		
+		Comparable[] copia= copiar(nuevo);
+		Comparable[] keyexistentes= new Comparable[8000];
+		
+		for(int i=0;i<8000;i++) 
+		{
+			int valorEntero = (int) Math.floor(Math.random()*(copia.length));
+			keyexistentes[i]=copia[valorEntero];
+		}
+		
+		double sumadetodo=0.0;
+		double mayor=0.0;
+		double menor=100000.0;
+		for(int i=0;i<keyexistentes.length;i++) 
+		{
+			long inicio2 = System.nanoTime();
+			datosCola2.get(keyexistentes[i]);
+			long fin2 = System.nanoTime();
+			double tiempo=(fin2-inicio2)/1.0e9;
+			sumadetodo+=tiempo;
+			if(tiempo>mayor) 
+			{
+				mayor=tiempo;
+			}
+			if(tiempo<menor) 
+			{
+				menor= tiempo;
+			}
+		}
+		System.out.println("El tiempo mayor del get con llaves existentes fue de: "+mayor+" segundos.");
+		System.out.println("El tiempo menor del get con llaves existentes fue de: "+menor+" segundos.");
+		
+		SimpleDateFormat objSDF= new SimpleDateFormat("yyyy/MM/dd");
+		Date nuevafecha=null;
+		try {
+			
+			nuevafecha=objSDF.parse("2019/02/15");
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		KeyComparendo noexiste= new KeyComparendo(nuevafecha,"Motocicleta","C02");
+		
+ 		for(int i=0;i<2000;i++) 
+ 		{
+ 			long inicio2 = System.nanoTime();
+			datosCola2.get(noexiste);
+			long fin2 = System.nanoTime();
+			double tiempo=(fin2-inicio2)/1.0e9;
+			sumadetodo+=tiempo;
+			if(tiempo>mayor) 
+			{
+				mayor=tiempo;
+			}
+			if(tiempo<menor) 
+			{
+				menor= tiempo;
+			}
+ 		}
+ 		
+ 		double promedioget=sumadetodo/10000;
+ 		
+ 		System.out.println("El tiempo promedio de los 10000 get aleatorios fue de: "+promedioget+" segundos.");
+ 		System.out.println("El tiempo mayor del get fue de: "+mayor+" segundos.");
+		System.out.println("El tiempo menor del get fue de: "+menor+" segundos.");
+		
+	}
+	
+	
 	
 	private static void shuffle(Comparable[] a)
 	{
@@ -132,9 +253,7 @@ public class Modelo {
 		return aux;
 	}
 
-	public ListaEncadenadaCola getDatosCola() {
-		return datosCola;
-	}
+	
 
 	public HashLinearProbing getDatosCola2() {
 		return datosCola2;
@@ -142,6 +261,65 @@ public class Modelo {
 
 	public HashSeparateChaining getDatosCola3() {
 		return datosCola3;
+	}
+	
+	public Comparable[] copiar(ListaDoblementeEncadenada datos)
+	{
+		int i=0;
+		Node puntero=datos.darCabeza2();
+		Comparable[] arreglo= new Comparable[datos.darLongitud()];
+		while(i<datos.darLongitud())
+		{
+			arreglo[i]= puntero.darE();
+			puntero=puntero.darSiguiente();
+			i++;
+		}
+		return arreglo;
+		
+	}
+	
+	public void pegar(Comparable[] copia, ListaDoblementeEncadenada nuevo)
+	{
+		int i=0;
+		while(i<copia.length)
+		{
+			nuevo.insertarFinal(copia[i]);
+			i++;
+		}
+	}
+	
+	public void shellSortMenoraMayor(Comparable datos[])
+	{
+		
+		int N=datos.length;
+		int h=1;
+		while(h<N/3)
+			h=3*h+1;
+		while(h>=1){
+			for(int i=h;i<N;i++)
+			{
+					for(int j=i;j>=h && less(datos[j], datos[j-h]);j-=h)
+					{
+						exch(datos,j,j-h);
+					}
+			}
+			h=h/3;
+		}
+		
+
+		
+	}
+	
+	private boolean less(Comparable v,Comparable w)
+	{
+		return v.compareTo(w) < 0;
+	}
+	
+	private void exch(Comparable[] datos,int i, int j)
+	{
+		Comparable t=datos[i];
+		datos[i]=datos[j];
+		datos[j]=t;
 	}
 
 

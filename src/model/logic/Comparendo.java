@@ -40,7 +40,17 @@ public class Comparendo implements Comparable<Comparendo>{
 		this.municipio=municipio;
 		this.longitud=longitud;
 		this.latitud=latitud;
-		this.llave= new KeyComparendo(this.fecha,this.clasevehi,this.infraccion);
+		
+		SimpleDateFormat objSDF2= new SimpleDateFormat("yyyy/MM/dd");
+		String nuevo=objSDF2.format(this.fecha);
+		Date nuevofinal=null;
+		try {
+		nuevofinal=objSDF2.parse(nuevo);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}                                                                                                                          
+		this.llave= new KeyComparendo(nuevofinal,this.clasevehi,this.infraccion);
 	}
 
 	
@@ -57,7 +67,7 @@ public class Comparendo implements Comparable<Comparendo>{
 	@Override
 	public String toString()
 	{
-		return "Comparendo "+": id= "+id+ ",clase vehiculo=" +clasevehi+",latitud= "+latitud+",longitud= "+longitud;
+		return "Comparendo "+": id= "+id+ " ,fecha y hora= "+fecha.toString()+" ,localidad=" +localidad+" , infraccion= "+infraccion;
 	}
 
 
@@ -126,9 +136,9 @@ public class Comparendo implements Comparable<Comparendo>{
 	@Override
 	public int compareTo(Comparendo compa) {
 		// TODO Auto-generated method stub
-		if(latitud > compa.latitud)
+		if(id > compa.id)
 			return 1;
-		else if(latitud == compa.latitud ) {
+		else if(id == compa.id ) {
 			return 0;
 		} else {
 			return -1;

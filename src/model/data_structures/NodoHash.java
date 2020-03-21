@@ -1,6 +1,6 @@
 package model.data_structures;
 
-public class NodoHash<K extends Comparable<K>,V> {
+public class NodoHash<K extends Comparable<K>,V extends Comparable<V>> {
 	/**
 	 * Elemento Génerico que se almacena en el nodo.
 	 */

@@ -1,5 +1,7 @@
 package model.logic;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class KeyComparendo implements Comparable<KeyComparendo>{
@@ -16,10 +18,15 @@ public class KeyComparendo implements Comparable<KeyComparendo>{
 		infraccion=in;
 	}
 	
-	public boolean equals(KeyComparendo k) 
+	@Override
+	public boolean equals(Object k) 
 	{
-		return fecha.equals(fecha) && clasevehiculo.equalsIgnoreCase(clasevehiculo) && infraccion.equalsIgnoreCase(infraccion);
+		
+		KeyComparendo k2=(KeyComparendo) k;
+		return fecha.equals(k2.getFecha()) && clasevehiculo.equalsIgnoreCase(k2.getClasevehiculo()) && infraccion.equalsIgnoreCase(k2.getInfraccion());
 	}
+	
+
 	
 	public int hashCode() 
 	{

@@ -6,7 +6,6 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 
 	private int tamActual;
 	private int tamTotal;
-    private NodoHash<K,V>[] nodos;
     private int factorCargaMaximo;
     private int contrehash;
     private NodoHash<K,ListaDoblementeEncadenada<V>>[] nodosSet;
@@ -23,120 +22,9 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 	factorCargaMaximo=5;
 	tamActual=0;
 	contrehash=0;
-	nodos=  new NodoHash[max];
 	nodosSet=  new NodoHash[max];
 	}
 	
-	public void put(K key, V value){
-	
-		double factorActual = tamActual/tamTotal;
-		if(factorActual>= factorCargaMaximo)
-		{
-			rehash();
-		}
-		
-		int indice=hash(key);
-		if(nodos[indice]==null)
-		{
-			nodos[indice]= new NodoHash<K,V>(key, value);
-		}
-		else
-		{
-			NodoHash<K, V> actual = nodos[indice];
-			boolean encontrado=false;
-			while (actual.darSiguiente()!=null) {
-				if(actual.darE().equals(key)) {
-					NodoHash <K,V> temp=actual.darSiguiente();
-					encontrado=true;
-					actual=new NodoHash<K, V>(key, value);
-					actual.cambiarSiguiente(temp);
-					
-				}
-				actual= actual.darSiguiente();	
-				}
-			if(encontrado==false)
-			actual.cambiarSiguiente(new NodoHash<K,V>(key, value));
-		}
-		tamActual++;
-	}
-
-	private void rehash() {
-
-		HashSeparateChaining<K, V> nuevatabla= new HashSeparateChaining<>(tamTotal*5);
-		Iterator<K> itr = keys();
-		while (itr.hasNext()) {
-			K keyActuak = (K) itr.next();
-			V valorActual = get(keyActuak);
-			nuevatabla.put(keyActuak, valorActual);
-		}
-		
-		tamTotal = 5* tamTotal;
-		nodos  = nuevatabla.getNodos();
-		++contrehash;
-		
-		
-		
-	}
-
-	public NodoHash<K, V>[] getNodos() {
-		return	nodos;
-	}
-
-	public V delete(K keyActual) {
-		// TODO Auto-generated method stub
-		NodoHash<K,V> variable= nodos[hash(keyActual)];
-		V resp=null;
-		if(variable==null)
-			return null;
-		if(variable.darE().equals(keyActual))
-		{
-			nodos[hash(keyActual)]=variable.darSiguiente();
-			tamActual--;
-			resp=variable.darv();
-		}
-		
-		while (variable.darSiguiente()!=null)
-		{
-			if(variable.darSiguiente().darE().equals(keyActual)) {
-			resp=variable.darSiguiente().darv();
-			variable.cambiarSiguiente(variable.darSiguiente().darSiguiente());
-			tamActual--;}
-		variable=variable.darSiguiente();
-		
-		
-		}
-		return resp;
-	}
-
-	public V get(K keyActual) {
-		// TODO Auto-generated method stub
-		NodoHash<K,V> variable= nodos[hash(keyActual)];
-		V resp=null;
-		while (variable!=null)
-		{
-			if(variable.darE().equals(keyActual))
-			resp=variable.darv();
-		variable=variable.darSiguiente();
-		
-		}
-		return resp;
-	}
-	public Iterator<K> keys() {
-		// TODO Auto-generated method stub
-		ListaDoblementeEncadenada<K> lista=new ListaDoblementeEncadenada<K>();
-		
-		for (int i = 0; i < nodos.length; i++) {
-			
-			NodoHash<K, V> nodoHash = nodos[i];
-			while(nodoHash!=null) {
-				lista.insertarComienzo(nodoHash.darE());
-				nodoHash=nodoHash.darSiguiente();
-			}
-			
-		}
-		Iterator<K> resp=lista.iterator();
-		return resp;
-	}
     
 
  public Iterator<K> keysSet() {
@@ -194,7 +82,7 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 		{
 			NodoHash<K, ListaDoblementeEncadenada <V>> actual = nodosSet[i];
 			boolean encontrado=false;
-			while(actual.darSiguiente()!=null&&encontrado==false) {
+			while(actual.darSiguiente()!=null && encontrado==false) {
 				if(actual.darE().equals(key)) {
                     actual.darv().insertarComienzo(val);
                     encontrado=true;
@@ -207,7 +95,7 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
                 actual.darv().insertarComienzo(val);
                 encontrado=true;
 			}
-			if(encontrado==false) {
+			if(!encontrado) {
 				actual.cambiarSiguiente(new NodoHash<K,ListaDoblementeEncadenada<V>>(key, new ListaDoblementeEncadenada<>()));
 				actual.darSiguiente().darv().insertarComienzo(val);
 			}
@@ -228,8 +116,14 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 		return resp;
 	}
 	public void rehashSet() {
-
-		HashSeparateChaining<K, V> nuevatabla= new HashSeparateChaining<>(tamTotal*5);
+		
+		int temp=tamTotal*2;
+		if(temp%2==0) 
+		{
+			++temp;
+		}
+		
+		HashSeparateChaining<K, V> nuevatabla= new HashSeparateChaining<>(temp);
 		Iterator<K> itr = keysSet();
 		while (itr.hasNext()) {
 			K keyActuak = (K) itr.next();
@@ -240,7 +134,7 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 			
 		}
 		
-		tamTotal = 5* tamTotal;
+		tamTotal = temp;
 		nodosSet  = nuevatabla.getNodosSet();
 		++contrehash;
 		

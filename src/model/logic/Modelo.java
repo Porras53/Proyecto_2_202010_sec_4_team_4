@@ -43,6 +43,7 @@ public class Modelo {
 	{
 		
 		datosCola2 = new HashLinearProbing();
+		datosCola3=new HashSeparateChaining();
 	}
 
 	/**
@@ -56,18 +57,18 @@ public class Modelo {
 		
 		long inicio = System.currentTimeMillis();
 		long inicio2 = System.nanoTime();
-		String dir= "./data/Comparendos_DEI_2018_Bogotï¿½_D.C.geojson";
+		String dir= "./data/Comparendos_DEI_2018_Bogotá_D.C.geojson";
 		File archivo= new File(dir);
 		JsonReader reader= new JsonReader( new InputStreamReader(new FileInputStream(archivo)));
 		JsonObject gsonObj0= JsonParser.parseReader(reader).getAsJsonObject();
 
 		JsonArray comparendos=gsonObj0.get("features").getAsJsonArray();
 		int i=0;
-		datosCola3=new HashSeparateChaining(comparendos.size());
+		
 
 		
 		System.out.println("El tamaï¿½o inicial del linear hash : "+datosCola2.getNodos().length);
-		System.out.println("El tamaï¿½o inicial del separate hash : "+datosCola3.getNodos().length);
+		System.out.println("El tamaï¿½o inicial del separate hash : "+datosCola3.getNodosSet().length);
 		while(i<comparendos.size())
 		{
 			JsonElement obj= comparendos.get(i);
@@ -76,14 +77,12 @@ public class Modelo {
 			JsonObject gsonObjpropiedades=gsonObj.get("properties").getAsJsonObject();
 			int objid= gsonObjpropiedades.get("OBJECTID").getAsInt();
 			String fecha= gsonObjpropiedades.get("FECHA_HORA").getAsString();
-			//String mediodeteccion=gsonObjpropiedades.get("MEDIO_DETECCION").getAsString();
 			String mediodeteccion = "";
 			String clasevehiculo=gsonObjpropiedades.get("CLASE_VEHICULO").getAsString();
 			String tiposervi=gsonObjpropiedades.get("TIPO_SERVICIO").getAsString();
 			String infraccion=gsonObjpropiedades.get("INFRACCION").getAsString();
 			String desinfraccion=gsonObjpropiedades.get("DES_INFRACCION").getAsString();
 			String localidad=gsonObjpropiedades.get("LOCALIDAD").getAsString();
-			//String municipio= gsonObjpropiedades.get("MUNICIPIO").getAsString();
 			String municipio = "";
 
 			JsonObject gsonObjgeometria=gsonObj.get("geometry").getAsJsonObject();
@@ -118,7 +117,7 @@ public class Modelo {
 			{
 				if((nodos[i].darE()).equals(nuevo)) 
 				{
-					retorno.insertarFinal(nodos[i].darv());
+					retorno.insertarFinal(((Comparendo)nodos[i].darv()));
 				}
 			}
 		}
@@ -135,18 +134,18 @@ public class Modelo {
 	{
 		ListaDoblementeEncadenada retorno=new ListaDoblementeEncadenada();
 		KeyComparendo nuevo= new KeyComparendo(fe,clasevehicu,infra);
-		NodoHash[] nodos=datosCola3.getNodos();
+		NodoHash[] nodos=datosCola3.getNodosSet();
 		for(int i=0;i<nodos.length;i++) 
 		{
 			if(nodos[i]!=null) 
 			{
 				if((nodos[i].darE()).equals(nuevo)) 
 				{
-					retorno.insertarFinal(nodos[i].darv());
+					retorno=(ListaDoblementeEncadenada)nodos[i].darv();
+					
 				}
 			}
 		}
-		
 		Comparable[] copia= copiar(retorno);
 		retorno= new ListaDoblementeEncadenada();
 		shellSortMenoraMayor(copia);
@@ -159,17 +158,30 @@ public class Modelo {
 	public void requerimiento3() 
 	{
 		ListaDoblementeEncadenada nuevo= new ListaDoblementeEncadenada();
+		ListaDoblementeEncadenada nuevo1= new ListaDoblementeEncadenada();
 		NodoHash[] nodos=datosCola2.getNodos();
+		NodoHash[] nodos1=datosCola3.getNodosSet();
 		for(int i=0; i<nodos.length;i++) 
 		{
 			if(nodos[i]!=null) 
 			{
 				nuevo.insertarFinal(nodos[i].darE());
 			}
+			
+		}
+		
+		for(int i=0; i<nodos1.length;i++) 
+		{
+			if(nodos1[i]!=null) 
+			{
+				nuevo1.insertarFinal(nodos1[i].darE());
+			}
 		}
 		
 		Comparable[] copia= copiar(nuevo);
+		Comparable[] copia1= copiar(nuevo);
 		Comparable[] keyexistentes= new Comparable[8000];
+		Comparable[] keyexistentes1= new Comparable[8000];
 		
 		for(int i=0;i<8000;i++) 
 		{
@@ -177,9 +189,19 @@ public class Modelo {
 			keyexistentes[i]=copia[valorEntero];
 		}
 		
+		for(int i=0;i<8000;i++) 
+		{
+			int valorEntero = (int) Math.floor(Math.random()*(copia1.length));
+			keyexistentes1[i]=copia1[valorEntero];
+		}
+		
 		double sumadetodo=0.0;
 		double mayor=0.0;
 		double menor=100000.0;
+		
+		
+		
+		
 		for(int i=0;i<keyexistentes.length;i++) 
 		{
 			long inicio2 = System.nanoTime();
@@ -195,9 +217,41 @@ public class Modelo {
 			{
 				menor= tiempo;
 			}
+			
+			
 		}
-		System.out.println("El tiempo mayor del get con llaves existentes fue de: "+mayor+" segundos.");
-		System.out.println("El tiempo menor del get con llaves existentes fue de: "+menor+" segundos.");
+		
+		double sumadetodo1=0.0;
+		double mayor1=0.0;
+		double menor1=100000.0;
+		
+		for(int i=0;i<keyexistentes1.length;i++) 
+		{
+			
+			long inicio3 = System.nanoTime();
+			datosCola3.getSet(keyexistentes1[i]);
+			long fin3 = System.nanoTime();
+			double tiempo2=(fin3-inicio3)/1.0e9;
+			sumadetodo1+=tiempo2;
+			if(tiempo2<menor1) 
+			{
+				menor1=tiempo2;
+				System.out.println(menor1);
+			}
+			
+			if(tiempo2>mayor1) 
+			{
+				mayor1=tiempo2;
+			}
+			
+		}
+		
+		System.out.println("El tiempo mayor del get con llaves existentes en linear hash fue de: "+mayor+" segundos.");
+		System.out.println("El tiempo menor del get con llaves existentes en linear hash fue de: "+menor+" segundos.");
+		
+		System.out.println("El tiempo mayor del get con llaves existentes en separate hash fue de: "+mayor1+" segundos.");
+		System.out.println("El tiempo menor del get con llaves existentes en separate hash fue de: "+menor1+" segundos.");
+		
 		
 		SimpleDateFormat objSDF= new SimpleDateFormat("yyyy/MM/dd");
 		Date nuevafecha=null;
@@ -227,11 +281,37 @@ public class Modelo {
 			}
  		}
  		
- 		double promedioget=sumadetodo/10000;
+ 		for(int i=0;i<2000;i++)
+ 		{
+ 			long inicio3 = System.nanoTime();
+			datosCola3.getSet(noexiste);
+			long fin3 = System.nanoTime();
+			double tiempo2=(fin3-inicio3)/1.0e9;
+			sumadetodo1+=tiempo2;
+			if(tiempo2<menor1) 
+			{
+				menor1= tiempo2;
+				System.out.println(menor1);
+			}
+			
+			if(tiempo2>mayor1) 
+			{
+				mayor1=tiempo2;
+			}
+			
+ 		}
  		
- 		System.out.println("El tiempo promedio de los 10000 get aleatorios fue de: "+promedioget+" segundos.");
- 		System.out.println("El tiempo mayor del get fue de: "+mayor+" segundos.");
-		System.out.println("El tiempo menor del get fue de: "+menor+" segundos.");
+ 		
+ 		double promedioget=sumadetodo/10000.0;
+ 		double promedioget1=sumadetodo1/10000.0; 
+ 		
+ 		System.out.println("El tiempo promedio de los 10000 get aleatorios en linear hash fue de: "+promedioget+" segundos.");
+ 		System.out.println("El tiempo mayor del get en linear hash fue de: "+mayor+" segundos.");
+		System.out.println("El tiempo menor del get en linear hash fue de: "+menor+" segundos.");
+		
+		System.out.println("El tiempo promedio de los 10000 get aleatorios  en separate hash fue de: "+promedioget1+" segundos.");
+ 		System.out.println("El tiempo mayor del get en separate hash fue de: "+mayor1+" segundos.");
+		System.out.println("El tiempo menor del get en separate hash fue de: "+menor1+" segundos.");
 		
 	}
 	

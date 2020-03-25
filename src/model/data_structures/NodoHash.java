@@ -1,8 +1,8 @@
 package model.data_structures;
 
-public class NodoHash<K extends Comparable<K>,V extends Comparable<V>> {
+public class NodoHash<K extends Comparable<K>,V > {
 	/**
-	 * Elemento Génerico que se almacena en el nodo.
+	 * Elemento Gï¿½nerico que se almacena en el nodo.
 	 */
 	private K e;
 	private V v;
@@ -12,7 +12,7 @@ public class NodoHash<K extends Comparable<K>,V extends Comparable<V>> {
 	private NodoHash siguiente;
 	
 	/**
-	 * 	Método Constructor
+	 * 	Mï¿½todo Constructor
 	 * @param t2. Elemento que se almacenera en nodo.
 	 */
 	public NodoHash(K t2,V t3)
@@ -37,14 +37,14 @@ public class NodoHash<K extends Comparable<K>,V extends Comparable<V>> {
 	 * @return Nodo siguiente del actual.
 	 */
 	
-	public NodoHash darSiguiente()
+	public NodoHash<K,V> darSiguiente()
 	{
 		return siguiente;
 	}
 	
 	/**
-	 * Retorna el elemento genérico almacenado en el nodo.
-	 * @return Elemento Genérico.
+	 * Retorna el elemento genï¿½rico almacenado en el nodo.
+	 * @return Elemento Genï¿½rico.
 	 */
 	public K darE()
 	{
@@ -63,8 +63,8 @@ public class NodoHash<K extends Comparable<K>,V extends Comparable<V>> {
     
 
 	/**
-	 * Retorna el elemento genérico almacenado en el nodo.
-	 * @return Elemento Genérico.
+	 * Retorna el elemento genï¿½rico almacenado en el nodo.
+	 * @return Elemento Genï¿½rico.
 	 */
 	public V darv()
 	{

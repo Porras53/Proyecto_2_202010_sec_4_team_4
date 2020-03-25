@@ -56,7 +56,7 @@ public class Modelo {
 		
 		long inicio = System.currentTimeMillis();
 		long inicio2 = System.nanoTime();
-		String dir= "./data/Comparendos_DEI_2018_Bogotá_D.C.geojson";
+		String dir= "./data/Comparendos_DEI_2018_Bogotï¿½_D.C.geojson";
 		File archivo= new File(dir);
 		JsonReader reader= new JsonReader( new InputStreamReader(new FileInputStream(archivo)));
 		JsonObject gsonObj0= JsonParser.parseReader(reader).getAsJsonObject();
@@ -66,8 +66,8 @@ public class Modelo {
 		datosCola3=new HashSeparateChaining(comparendos.size());
 
 		
-		System.out.println("El tamaño inicial del linear hash : "+datosCola2.getNodos().length);
-		System.out.println("El tamaño inicial del separate hash : "+datosCola3.getNodos().length);
+		System.out.println("El tamaï¿½o inicial del linear hash : "+datosCola2.getNodos().length);
+		System.out.println("El tamaï¿½o inicial del separate hash : "+datosCola3.getNodos().length);
 		while(i<comparendos.size())
 		{
 			JsonElement obj= comparendos.get(i);
@@ -94,14 +94,14 @@ public class Modelo {
 
 			Comparendo agregar=new Comparendo(objid, fecha,mediodeteccion,clasevehiculo, tiposervi, infraccion, desinfraccion, localidad, municipio ,longitud,latitud);
 			datosCola2.put(agregar.getLlave(), agregar);
-			datosCola3.put(agregar.getLlave(), agregar);
+			datosCola3.putInSet(agregar.getLlave(), agregar);
 			i++;
 		}
 		long fin2 = System.nanoTime();
 		long fin = System.currentTimeMillis();
 		
-		System.out.println("El tamaño final del linear hash : "+datosCola2.getNodos().length);
-		System.out.println("El tamaño final del separate hash : "+datosCola3.getNodos().length);
+		System.out.println("El tamaï¿½o final del linear hash : "+datosCola2.getNodos().length);
+		System.out.println("El tamaï¿½o final del separate hash : "+datosCola3.getNodosSet().length);
 		System.out.println((fin2-inicio2)/1.0e9 +" segundos, de la carga de datos normal.");
 		
 		

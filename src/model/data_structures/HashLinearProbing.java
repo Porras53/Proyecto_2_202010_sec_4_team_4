@@ -42,6 +42,11 @@ public class HashLinearProbing<K extends Comparable<K>, V extends Comparable<V>>
 
     
     private void resize(int capacidad) {
+    	if(capacidad % 2 == 0) 
+    	{
+    		capacidad++;
+    	}
+    	
         HashLinearProbing temp = new HashLinearProbing(capacidad);
         for (int i = 0; i < m; i++) {
             if (nodos[i] != null) {
@@ -82,7 +87,6 @@ public class HashLinearProbing<K extends Comparable<K>, V extends Comparable<V>>
         }
      }
      
-        
         n++;
     }
     
@@ -99,28 +103,29 @@ public class HashLinearProbing<K extends Comparable<K>, V extends Comparable<V>>
         return null;
     }
     
-    public void delete(K key) {
+    public V delete(K key) {
+    	V retorno=null;
         if (key == null) throw new IllegalArgumentException("argument to delete() is null");
-        if (!contains(key)) return;
+        if (!contains(key)) return null;
 
         // find position i of key
         int i = hash(key);
         while (!key.equals(nodos[i].darE())) {
             i = (i + 1) % m;
         }
+        
+        retorno=nodos[i].darv();
 
         // delete key and associated value
-        nodos[i].cambiarE(null);
-        nodos[i].cambiarV(null);
+        nodos[i]=null;
         
         // rehash all keys in same cluster
         i = (i + 1) % m;
-        while (nodos[i].darE() != null) {
+        while (nodos[i] != null) {
             // delete keys[i] an vals[i] and reinsert
             K   keyToRehash = nodos[i].darE();
             V valToRehash = nodos[i].darv();
-            nodos[i].cambiarE(null);
-            nodos[i].cambiarV(null);
+            nodos[i]= null;
             n--;
             put(keyToRehash, valToRehash);
             i = (i + 1) % m;
@@ -131,6 +136,8 @@ public class HashLinearProbing<K extends Comparable<K>, V extends Comparable<V>>
         if (n > 0 && n <= m/8) resize(m/2);
 
         assert check();
+        
+        return retorno;
 
         
     }

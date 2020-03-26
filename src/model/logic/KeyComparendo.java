@@ -21,7 +21,6 @@ public class KeyComparendo implements Comparable<KeyComparendo>{
 	@Override
 	public boolean equals(Object k) 
 	{
-		
 		KeyComparendo k2=(KeyComparendo) k;
 		return fecha.equals(k2.getFecha()) && clasevehiculo.equalsIgnoreCase(k2.getClasevehiculo()) && infraccion.equalsIgnoreCase(k2.getInfraccion());
 	}

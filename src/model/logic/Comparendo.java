@@ -42,7 +42,9 @@ public class Comparendo implements Comparable<Comparendo>{
 		this.latitud=latitud;
 		
 		SimpleDateFormat objSDF2= new SimpleDateFormat("yyyy/MM/dd");
+		
 		String nuevo=objSDF2.format(this.fecha);
+		
 		Date nuevofinal=null;
 		try {
 		nuevofinal=objSDF2.parse(nuevo);
@@ -67,7 +69,7 @@ public class Comparendo implements Comparable<Comparendo>{
 	@Override
 	public String toString()
 	{
-		return "Comparendo "+": id= "+id+ " ,fecha y hora= "+fecha.toString()+" ,localidad=" +localidad+" , infraccion= "+infraccion;
+		return "Comparendo "+": id= "+id+ " ,fecha y hora= "+fecha.toString()+" ,localidad=" +localidad+" , infraccion= "+infraccion+ " TIPO VEHICULO="+clasevehi;
 	}
 
 

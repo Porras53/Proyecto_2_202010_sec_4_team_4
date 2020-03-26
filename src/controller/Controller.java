@@ -63,14 +63,14 @@ public class Controller {
 					HashLinearProbing datosCola= modelo.getDatosCola2();
 					Double nm= (Double.valueOf(datosCola.size())/Double.valueOf(datosCola.getNodos().length));
 				    view.printMessage("Factor final de carga linear hash (N/M) = "+ nm);
-				    view.printMessage("Numero de comparendos o número de duplas(K,V) en la tabla linear hash= " + datosCola.size() + "\n");
+				    view.printMessage("Número de duplas(K,V) en la tabla linear hash= " + datosCola.size() + "\n");
 				    view.printMessage("Número de rehash hechos en linear hash= "+datosCola.getContrehash());
 				    
 				    
 				    HashSeparateChaining datosCola2=modelo.getDatosCola3();
 				    Double nm2= (Double.valueOf(datosCola2.getTamActual())/Double.valueOf(datosCola2.getNodosSet().length));
 				    view.printMessage("Factor final de carga separate hash (N/M) = "+ nm2);
-				    view.printMessage("Número de comparendos o número de duplas(K,V) en la tabla linear hash= " + datosCola2.getTamActual()+ "\n");
+				    view.printMessage("Número de comparendos o número de duplas(K,V) en la tabla linear hash= " + datosCola2.getNumduplas()+ "\n");
 				    view.printMessage("Número de rehash hechos en separate hash= "+datosCola2.getContrehash());
 				    
 				    
@@ -116,6 +116,15 @@ public class Controller {
 					
 					view.printMessage("Ingresa la clase de vehiculo: \n---------"); 
 					String clasevehicu=lector.next();
+					
+					if(clasevehicu.equalsIgnoreCase("Automóvil"))
+					{
+						clasevehicu="AutomÃ“vil";
+					}
+					else if(clasevehicu.equalsIgnoreCase("Camión")) 
+					{
+						clasevehicu="CamiÃ“n";
+					}
 					
 					view.printMessage("Ingresa el codigo de infraccion: \n---------"); 
 					String infra=lector.next();

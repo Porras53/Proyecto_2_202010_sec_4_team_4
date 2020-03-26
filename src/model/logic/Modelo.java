@@ -288,11 +288,7 @@ public class Modelo {
 			long fin3 = System.nanoTime();
 			double tiempo2=(fin3-inicio3)/1.0e9;
 			sumadetodo1+=tiempo2;
-			if(tiempo2<menor1) 
-			{
-				menor1= tiempo2;
-				System.out.println(menor1);
-			}
+			
 			
 			if(tiempo2>mayor1) 
 			{
@@ -385,8 +381,6 @@ public class Modelo {
 			}
 			h=h/3;
 		}
-		
-
 		
 	}
 	

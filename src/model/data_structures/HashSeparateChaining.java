@@ -8,6 +8,7 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 	private int tamTotal;
     private int factorCargaMaximo;
     private int contrehash;
+    private int numduplas;
     private NodoHash<K,ListaDoblementeEncadenada<V>>[] nodosSet;
 	
     
@@ -26,7 +27,6 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 	}
 	
     
-
  public Iterator<K> keysSet() {
 	// TODO Auto-generated method stub
 	ListaDoblementeEncadenada<K> lista=new ListaDoblementeEncadenada<K>();
@@ -98,6 +98,7 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 			if(!encontrado) {
 				actual.cambiarSiguiente(new NodoHash<K,ListaDoblementeEncadenada<V>>(key, new ListaDoblementeEncadenada<>()));
 				actual.darSiguiente().darv().insertarComienzo(val);
+				numduplas++;
 			}
 			
 		}
@@ -170,5 +171,10 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 		
 		}
 		return resp.iterator();
+	}
+
+
+	public int getNumduplas() {
+		return numduplas;
 	}
 }

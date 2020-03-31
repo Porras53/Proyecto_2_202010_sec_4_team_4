@@ -9,7 +9,7 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
     private int factorCargaMaximo;
     private int contrehash;
     private int numduplas;
-    private NodoHash<K,ListaDoblementeEncadenada<V>>[] nodosSet;
+    private NodoHash22<K,ListaDoblementeEncadenada<V>>[] nodosSet;
 	
     
     public HashSeparateChaining() 
@@ -23,7 +23,7 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 	factorCargaMaximo=5;
 	tamActual=0;
 	contrehash=0;
-	nodosSet=  new NodoHash[max];
+	nodosSet=  new NodoHash22[max];
 	}
 	
     
@@ -33,7 +33,7 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 	
 	for (int i = 0; i < nodosSet.length; i++) {
 		
-		NodoHash<K, ListaDoblementeEncadenada<V>> nodoHash = nodosSet[i];
+		NodoHash22<K, ListaDoblementeEncadenada<V>> nodoHash = nodosSet[i];
 		while(nodoHash!=null) {
 			lista.insertarComienzo(nodoHash.darE());
 			nodoHash=nodoHash.darSiguiente();
@@ -74,13 +74,13 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 		
 		if(nodosSet[i]==null)
 		{
-			nodosSet[i]= new NodoHash<K,ListaDoblementeEncadenada <V>>(key, new ListaDoblementeEncadenada<>());
+			nodosSet[i]= new NodoHash22<K,ListaDoblementeEncadenada <V>>(key, new ListaDoblementeEncadenada<>());
 			nodosSet[i].darv().insertarComienzo(val);
 			
 		}
 		else
 		{
-			NodoHash<K, ListaDoblementeEncadenada <V>> actual = nodosSet[i];
+			NodoHash22<K, ListaDoblementeEncadenada <V>> actual = nodosSet[i];
 			boolean encontrado=false;
 			while(actual.darSiguiente()!=null && encontrado==false) {
 				if(actual.darE().equals(key)) {
@@ -96,7 +96,7 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
                 encontrado=true;
 			}
 			if(!encontrado) {
-				actual.cambiarSiguiente(new NodoHash<K,ListaDoblementeEncadenada<V>>(key, new ListaDoblementeEncadenada<>()));
+				actual.cambiarSiguiente(new NodoHash22<K,ListaDoblementeEncadenada<V>>(key, new ListaDoblementeEncadenada<>()));
 				actual.darSiguiente().darv().insertarComienzo(val);
 				numduplas++;
 			}
@@ -105,7 +105,7 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 		tamActual++;
 	}
 	public ListaDoblementeEncadenada<V> getSet(K key){
-		NodoHash<K,ListaDoblementeEncadenada<V>> variable= nodosSet[hash(key)];
+		NodoHash22<K,ListaDoblementeEncadenada<V>> variable= nodosSet[hash(key)];
 		ListaDoblementeEncadenada<V> resp=null;
 		while (variable!=null)
 		{
@@ -143,13 +143,13 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 	}
 
 
-	public NodoHash<K, ListaDoblementeEncadenada<V>>[] getNodosSet() {
+	public NodoHash22<K, ListaDoblementeEncadenada<V>>[] getNodosSet() {
 		// TODO Auto-generated method stub
 		return nodosSet;
 	}
 	public Iterator <V> deleteSet(K keyActual) {
 		// TODO Auto-generated method stub
-		NodoHash<K,ListaDoblementeEncadenada<V>> variable= nodosSet[hash(keyActual)];
+		NodoHash22<K,ListaDoblementeEncadenada<V>> variable= nodosSet[hash(keyActual)];
 		ListaDoblementeEncadenada<V> resp=null;
 		if(variable==null)
 			return null;

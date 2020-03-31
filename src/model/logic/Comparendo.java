@@ -52,7 +52,7 @@ public class Comparendo implements Comparable<Comparendo>{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}                                                                                                                          
-		this.llave= new KeyComparendo(nuevofinal,this.clasevehi,this.infraccion);
+		this.llave= new KeyComparendo(id,nuevofinal,this.clasevehi,this.infraccion);
 	}
 
 	
@@ -69,7 +69,7 @@ public class Comparendo implements Comparable<Comparendo>{
 	@Override
 	public String toString()
 	{
-		return "Comparendo "+": id= "+id+ " ,fecha y hora= "+fecha.toString()+" ,localidad=" +localidad+" , infraccion= "+infraccion+ " TIPO VEHICULO="+clasevehi;
+		return "Comparendo "+": id= "+id+ " ,fecha y hora= "+fecha.toString()+" ,localidad=" +localidad+" , infraccion= "+infraccion+ " Tipo Vehiculo="+clasevehi + ", tipo de servicio=" + tiposervi;
 	}
 
 

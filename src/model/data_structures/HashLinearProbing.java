@@ -7,7 +7,7 @@ public class HashLinearProbing<K extends Comparable<K>, V extends Comparable<V>>
 	
 	private int n;           // number of key-value pairs in the symbol table
     private int m;           // size of linear probing table
-    private NodoHash<K,V>[] nodos;
+    private NodoHash22<K,V>[] nodos;
     private int contrehash;
     
     public HashLinearProbing() {
@@ -18,7 +18,7 @@ public class HashLinearProbing<K extends Comparable<K>, V extends Comparable<V>>
     {
     	m = capacidad;
         n = 0;
-        nodos= new NodoHash[m];
+        nodos= new NodoHash22[m];
         contrehash=0;
     }
     
@@ -72,7 +72,7 @@ public class HashLinearProbing<K extends Comparable<K>, V extends Comparable<V>>
         int i=hash(key);
         
      if(nodos[i]==null) {
-    	 nodos[i]=new NodoHash(key,val);
+    	 nodos[i]=new NodoHash22(key,val);
      }
      else if(nodos[i]!=null){
     	 boolean agregado=false;
@@ -81,7 +81,7 @@ public class HashLinearProbing<K extends Comparable<K>, V extends Comparable<V>>
         	
             	   if(nodos[i]==null) 
             	   {
-            		   nodos[i]=new NodoHash(key,val);
+            		   nodos[i]=new NodoHash22(key,val);
             		   agregado=true;
             	   }
         }
@@ -150,7 +150,7 @@ public class HashLinearProbing<K extends Comparable<K>, V extends Comparable<V>>
     }
 
 
-	public NodoHash<K, V>[] getNodos() {
+	public NodoHash22<K, V>[] getNodos() {
 		return nodos;
 	}
 	

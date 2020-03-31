@@ -6,13 +6,15 @@ import java.util.Date;
 
 public class KeyComparendo implements Comparable<KeyComparendo>{
 
+	private int id;
 	private Date fecha;
 	private String clasevehiculo;
 	private String infraccion;
 
 	
-	public KeyComparendo(Date f,String cv,String in) 
+	public KeyComparendo(int i,Date f,String cv,String in) 
 	{
+		id=i;
 		fecha=f;
 		clasevehiculo=cv;
 		infraccion=in;
@@ -40,8 +42,17 @@ public class KeyComparendo implements Comparable<KeyComparendo>{
 	
 	@Override
 	public int compareTo(KeyComparendo o) {
-		// TODO Auto-generated method stub
-		return 0;
+		int retorno=0;
+		
+		if(id>o.getId()) 
+		{
+			retorno=1;
+		}
+		else if(id<o.getId()) 
+		{
+			retorno=-1;
+		}
+		return retorno;
 	}
 
 	public Date getFecha() {
@@ -66,6 +77,14 @@ public class KeyComparendo implements Comparable<KeyComparendo>{
 
 	public void setInfraccion(String infraccion) {
 		this.infraccion = infraccion;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

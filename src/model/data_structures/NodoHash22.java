@@ -1,32 +1,25 @@
 package model.data_structures;
 
-public class NodoHash<K extends Comparable<K>,V > {
+public class NodoHash22<K extends Comparable<K>,V > {
 	/**
-	 * Elemento Generico que se almacena en el nodo.
+	 * Elemento G�nerico que se almacena en el nodo.
 	 */
 	private K e;
 	private V v;
-	 private NodoHash left, right;  // links to left and right subtrees
-     private boolean color;     // color of parent link
-     private int size;          // subtree count
-     
 	/**
 	 * Referencia para el siguiente nodo de la lista.
 	 */
-	private NodoHash siguiente;
+	private NodoHash22 siguiente;
 	
 	/**
 	 * 	M�todo Constructor
 	 * @param t2. Elemento que se almacenera en nodo.
 	 */
-	public NodoHash(K t2,V t3,boolean color, int size)
+	public NodoHash22(K t2,V t3)
 	{
 		e=t2;
 		v=t3;
-		this.color=color;
-		this.size=size;
-		left= null;
-		right=null;
+		siguiente=null;
 	}
 	
 	/**
@@ -34,7 +27,7 @@ public class NodoHash<K extends Comparable<K>,V > {
 	 * @param newnode. Nueva referencia de nodo.
 	 */
 	
-	public void cambiarSiguiente(NodoHash newnode)
+	public void cambiarSiguiente(NodoHash22 newnode)
 	{
 		siguiente=newnode;
 	}
@@ -44,7 +37,7 @@ public class NodoHash<K extends Comparable<K>,V > {
 	 * @return Nodo siguiente del actual.
 	 */
 	
-	public NodoHash<K,V> darSiguiente()
+	public NodoHash22<K,V> darSiguiente()
 	{
 		return siguiente;
 	}
@@ -86,38 +79,6 @@ public class NodoHash<K extends Comparable<K>,V > {
 	public void cambiarV(V v)
 	{
 		this.v=v;
-	}
-
-	public NodoHash getLeft() {
-		return left;
-	}
-
-	public void setLeft(NodoHash left) {
-		this.left = left;
-	}
-
-	public NodoHash getRight() {
-		return right;
-	}
-
-	public void setRight(NodoHash right) {
-		this.right = right;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
-	}
-
-	public boolean isColor() {
-		return color;
-	}
-
-	public void setColor(boolean color) {
-		this.color = color;
 	}
 
 }

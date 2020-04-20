@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Random;
 
 import com.google.gson.*;
@@ -34,10 +35,11 @@ public class Modelo {
 	
 	private HashSeparateChaining datosCola3;
 	
-	private ArbolRojoNegroBTS datosArbol;
+	private ArbolRojoNegroBTS<Date, Comparendo> datosArbol;
 
 	private static Comparable[] aux;
-
+    private ListaDoblementeEncadenada<Comparendo> listaDatos;
+    
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 */
@@ -47,6 +49,7 @@ public class Modelo {
 		datosCola2 = new HashLinearProbing();
 		datosCola3=new HashSeparateChaining();
 		datosArbol= new ArbolRojoNegroBTS();
+		listaDatos= new ListaDoblementeEncadenada();
 	}
 
 	/**
@@ -90,7 +93,8 @@ public class Modelo {
 			double latitud= gsonArrcoordenadas.get(1).getAsDouble();
 
 			Comparendo agregar=new Comparendo(objid, fecha,mediodeteccion,clasevehiculo, tiposervi, infraccion, desinfraccion, localidad, municipio ,longitud,latitud);
-			datosArbol.put(agregar.getLlave(), agregar);
+			datosArbol.put(agregar.getDate(), agregar);
+			listaDatos.insertarComienzo(agregar);
 			i++;
 		}
 		long fin2 = System.nanoTime();
@@ -187,9 +191,21 @@ public class Modelo {
 		datos[i]=datos[j];
 		datos[j]=t;
 	}
-public void parteApunto1() {
-
+  public ListaDoblementeEncadenada<Comparendo> parteApunto1(int m) {
+    ListaDoblementeEncadenada<Comparendo> list;
+    list = new ListaDoblementeEncadenada<Comparendo>();
+	MaxHeapCP <Comparendo>heap= new MaxHeapCP<Comparendo>();
+	for (Comparendo comparendo : listaDatos) {
+		
+	   comparendo.setIndicador(1);
+	   heap.agregar(comparendo);
+	}
 	
+	for (int i = 0; i < m; i++) {
+		list.insertarComienzo(heap.eliminarMayor());
+		
+	}
+	return list;
 
 
 
@@ -197,5 +213,47 @@ public void parteApunto1() {
 
 
 }
+      public ListaDoblementeEncadenada<Comparendo> parteApunto2(int mes, String pDia)
+{
+	HashSeparateChaining<String, Comparendo> tabla;
+	tabla=new HashSeparateChaining<String,Comparendo>(100);
+	for (Comparendo comparendo  : listaDatos) {
+		String key ="";
+		key+=comparendo.getDate().getMonth();
+		int dia=comparendo.getDate().getDay();
+		if(dia==0)
+			key+=",D";
+		else if(dia==1)
+			key+=",L";
+		else if(dia==2)
+			key+=",M";
+		else if(dia==3)
+			key+=",I";
+		
+		else if(dia==4)
+			key+=",J";
+		else if(dia==5)
+			key+=",V";
+		else
+			key+=",S";
+		tabla.putInSet(key, comparendo);
+	}
+	return tabla.getSet(mes+","+pDia);
+	
+}
+      public ListaDoblementeEncadenada<Comparendo> parteApunto3(Date fechaInicial, Date fechaFinal, String localidad)
+      {
+    	  ListaDoblementeEncadenada<Comparendo> resp;
+    	  resp= new ListaDoblementeEncadenada<Comparendo>();
+    	  Iterable<Date> it =datosArbol.keys(fechaInicial, fechaFinal);
+    	  for (Date date : it) {
+			Comparendo c = datosArbol.get(date);
+    	  if(c.getLocalidad().equals(localidad))
+    		  resp.insertarComienzo(c);
+    	  
+		}
+    		return resp;	  
+    	  
+      }
 }
 

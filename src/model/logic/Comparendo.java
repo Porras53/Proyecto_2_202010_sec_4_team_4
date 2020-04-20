@@ -18,15 +18,16 @@ public class Comparendo implements Comparable<Comparendo>{
 	private double longitud;
 	private double latitud;
 	private KeyComparendo llave;
-	
+	private int indicador;
+
 	public Comparendo(int id,String fecha,String mediodeteccion ,String clasevehiculo,String tiposervicio,String infraccion,String desinfraccion,String localidad,String municipio ,double longitud,double latitud)
 	{
 		this.id= id;
 		SimpleDateFormat objSDF= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 		try {
-			
+
 			this.fecha=objSDF.parse(fecha);
-			
+
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,14 +41,15 @@ public class Comparendo implements Comparable<Comparendo>{
 		this.municipio=municipio;
 		this.longitud=longitud;
 		this.latitud=latitud;
-		
+		this.indicador=0;
+
 		SimpleDateFormat objSDF2= new SimpleDateFormat("yyyy/MM/dd");
-		
+
 		String nuevo=objSDF2.format(this.fecha);
-		
+
 		Date nuevofinal=null;
 		try {
-		nuevofinal=objSDF2.parse(nuevo);
+			nuevofinal=objSDF2.parse(nuevo);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,7 +57,7 @@ public class Comparendo implements Comparable<Comparendo>{
 		this.llave= new KeyComparendo(id,nuevofinal,this.clasevehi,this.infraccion);
 	}
 
-	
+
 	public String toString3() {
 		return "Comparendo [id=" + id + ", fecha=" + fecha.toString() + ", clase de vehiculo=" + clasevehi + ", tipo de servicio=" + tiposervi
 				+ ", infraccion=" + infraccion + ", descripcion de infraccion=" + desinfraccion + ", localidad=" + localidad
@@ -64,7 +66,7 @@ public class Comparendo implements Comparable<Comparendo>{
 	public String toString2()
 	{
 		return "Comparendo [ infraccion=" + infraccion+" , id=" + id + ", fecha=" + fecha.toString() + ", clase de vehiculo=" + clasevehi + ", tipo de servicio=" + tiposervi
-				 + ", localidad=" + localidad +"]";
+				+ ", localidad=" + localidad +"]";
 	}
 	@Override
 	public String toString()
@@ -80,7 +82,13 @@ public class Comparendo implements Comparable<Comparendo>{
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	public int getIndicador()
+	{
+		return indicador;
+	}
+	public void setIndicador(int indicador) {
+		this.indicador=indicador;
+	}
 	public String getFecha() {
 		return fecha.toString();
 	}
@@ -94,7 +102,10 @@ public class Comparendo implements Comparable<Comparendo>{
 			e.printStackTrace();
 		}
 	}
-
+    public Date getDate()
+    {
+    	return fecha;
+    }
 	public String getClasevehi() {
 		return clasevehi;
 	}
@@ -138,13 +149,40 @@ public class Comparendo implements Comparable<Comparendo>{
 	@Override
 	public int compareTo(Comparendo compa) {
 		// TODO Auto-generated method stub
-		if(id > compa.id)
-			return 1;
-		else if(id == compa.id ) {
-			return 0;
-		} else {
-			return -1;
+		if(indicador==1)
+		{
+            if(tiposervi.equals(compa.getTiposervi()))
+            {
+            	return infraccion.compareTo(compa.getInfraccion());
+            }
+            else if(tiposervi.equals("Publico"))
+            {
+            	return 1;
+            }
+            else if(tiposervi.equals("Particular"))
+            {
+            	return -1;
+            }
+            else if(tiposervi.equals("Oficial")&& compa.getTiposervi().equals("Publico"))	
+            {
+	             return -1; 
+            }
+            else
+            {
+            	return 1;
+            }
 		}
+		else
+		{
+			if(id > compa.id)
+				return 1;
+			else if(id == compa.id ) {
+				return 0;
+			} else {
+				return -1;
+			}
+		}
+		
 	}
 
 	public String getMediodeteccion() {
@@ -175,6 +213,6 @@ public class Comparendo implements Comparable<Comparendo>{
 
 
 
-	
-	
+
+
 }

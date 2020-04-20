@@ -60,7 +60,7 @@ public class Modelo {
 		
 		long inicio = System.currentTimeMillis();
 		long inicio2 = System.nanoTime();
-		String dir= "./data/Comparendos_DEI_2018_Bogotá_D.C.geojson";
+		String dir= "./data/Comparendos_DEI_2018_Bogotï¿½_D.C.geojson";
 		File archivo= new File(dir);
 		JsonReader reader= new JsonReader( new InputStreamReader(new FileInputStream(archivo)));
 		JsonObject gsonObj0= JsonParser.parseReader(reader).getAsJsonObject();
@@ -187,13 +187,15 @@ public class Modelo {
 		datos[i]=datos[j];
 		datos[j]=t;
 	}
+public void parteApunto1() {
+
+	
 
 
 
 
 
 
-
-
+}
 }
 

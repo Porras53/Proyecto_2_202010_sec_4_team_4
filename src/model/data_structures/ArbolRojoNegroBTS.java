@@ -430,7 +430,7 @@ public class ArbolRojoNegroBTS<K extends Comparable<K>, V> {
          * @param  rank the order statistic
          * @return the key in the symbol table of given {@code rank}
          * @throws IllegalArgumentException unless {@code rank} is between 0 and
-         *        <em>n</em>–1
+         *        <em>n</em>ï¿½1
          */
         public K select(int rank) {
             if (rank < 0 || rank >= size()) {
@@ -491,7 +491,26 @@ public class ArbolRojoNegroBTS<K extends Comparable<K>, V> {
 		public NodoHash getRoot() {
 			return root;
 		}
+		public Iterable<K> keys(K lo, K hi) {
+	        if (lo == null) throw new IllegalArgumentException("first argument to keys() is null");
+	        if (hi == null) throw new IllegalArgumentException("second argument to keys() is null");
 
+	        ListaDoblementeEncadenada<K> queue = new ListaDoblementeEncadenada<K>();
+	        // if (isEmpty() || lo.compareTo(hi) > 0) return queue;
+	        keys(root, queue, lo, hi);
+	        return queue;
+	    } 
+
+	    // add the keys between lo and hi in the subtree rooted at x
+	    // to the queue
+	    private void keys(NodoHash<K, V> x, ListaDoblementeEncadenada<K> queue, K lo, K hi) { 
+	        if (x == null) return; 
+	        int cmplo = lo.compareTo(x.darE()); 
+	        int cmphi = hi.compareTo(x.darE()); 
+	        if (cmplo < 0) keys(x.getLeft(), queue, lo, hi); 
+	        if (cmplo <= 0 && cmphi >= 0) queue.insertarComienzo(x.darE()); 
+	        if (cmphi > 0) keys(x.getRight(), queue, lo, hi); 
+	    } 
 
        
 

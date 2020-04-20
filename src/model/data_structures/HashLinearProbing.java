@@ -1,7 +1,7 @@
 package model.data_structures;
 
 import model.logic.KeyComparendo;
-import sun.misc.Queue;
+
 
 public class HashLinearProbing<K extends Comparable<K>, V extends Comparable<V>> {
 	

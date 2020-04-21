@@ -17,10 +17,11 @@ public class Comparendo implements Comparable<Comparendo>{
 	private String municipio;
 	private double longitud;
 	private double latitud;
+	private double distanciaconestacion;
 	private KeyComparendo llave;
 	private int indicador;
 
-	public Comparendo(int id,String fecha,String mediodeteccion ,String clasevehiculo,String tiposervicio,String infraccion,String desinfraccion,String localidad,String municipio ,double longitud,double latitud)
+	public Comparendo(int id,String fecha,String mediodeteccion ,String clasevehiculo,String tiposervicio,String infraccion,String desinfraccion,String localidad,String municipio ,double longitud,double latitud,double distanciaconestacion)
 	{
 		this.id= id;
 		SimpleDateFormat objSDF= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -41,6 +42,7 @@ public class Comparendo implements Comparable<Comparendo>{
 		this.municipio=municipio;
 		this.longitud=longitud;
 		this.latitud=latitud;
+		this.distanciaconestacion=distanciaconestacion;
 		this.indicador=0;
 
 		SimpleDateFormat objSDF2= new SimpleDateFormat("yyyy/MM/dd");
@@ -71,7 +73,7 @@ public class Comparendo implements Comparable<Comparendo>{
 	@Override
 	public String toString()
 	{
-		return "Comparendo "+": id= "+id+ " ,fecha y hora= "+fecha.toString()+" ,localidad=" +localidad+" , infraccion= "+infraccion+ " Tipo Vehiculo="+clasevehi + ", tipo de servicio=" + tiposervi;
+		return "Comparendo "+": id= "+id+ " ,fecha y hora= "+fecha.toString()+" ,localidad=" +localidad+" , infraccion= "+infraccion+ " Tipo Vehiculo="+clasevehi + ", tipo de servicio=" + tiposervi+ ", latitud="+latitud+" , longitud="+longitud;
 	}
 
 
@@ -172,6 +174,34 @@ public class Comparendo implements Comparable<Comparendo>{
             	return 1;
             }
 		}
+		else if(indicador==2) 
+		{	
+			int retorno=0;
+			if(distanciaconestacion<compa.getDistanciaconestacion()) 
+			{
+				retorno=1;
+			}
+			else if(distanciaconestacion>compa.getDistanciaconestacion())
+			{
+				retorno=-1;
+			}
+				
+			return retorno;
+		}
+		else if(indicador==3) 
+		{
+			int retorno=0;
+			if(fecha.compareTo(compa.getDate())>0) 
+			{
+				retorno=1;
+			}
+			else if(fecha.compareTo(compa.getDate())<0 ) 
+			{
+				retorno=-1;
+			}
+			
+			return retorno;
+		}
 		else
 		{
 			if(id > compa.id)
@@ -212,7 +242,24 @@ public class Comparendo implements Comparable<Comparendo>{
 	}
 
 
+	public double getDistanciaconestacion() {
+		return distanciaconestacion;
+	}
 
+
+	public void setDistanciaconestacion(double distanciaconestacion) {
+		this.distanciaconestacion = distanciaconestacion;
+	}
+
+
+	public double getLatitud() {
+		return latitud;
+	}
+
+
+	public void setLatitud(double latitud) {
+		this.latitud = latitud;
+	}
 
 
 }

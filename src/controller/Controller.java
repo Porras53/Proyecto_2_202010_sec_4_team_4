@@ -63,7 +63,72 @@ public class Controller {
 				}
 				    
 					break;
+				case 2: 
+					view.printMessage("Inserta un número n: \n---------"); 
+					int n1 = lector.nextInt();
+					modelo.parteApunto1(n1);
+					
+					break;
+				case 3: 
+					view.printMessage("Inserta el número del mes(1-12): \n---------"); 
+					int nmes = lector.nextInt();
+					view.printMessage("Inserte el día de la semana (L,M,I,J,V,S,D): \n---------"); 
+					String diasem = lector.next();
+					modelo.parteApunto2(nmes, diasem);
+					
+					break;
+				case 4: 
+					view.printMessage("Inserta una fecha inicial en el formato: (YYYY/MM/DD-HH:MM:ss): \n---------"); 
+					String fecha1 = lector.next();
+					view.printMessage("Inserta una fecha inicial en el formato: (YYYY/MM/DD-HH:MM:ss): \n---------"); 
+					String fecha2 = lector.next();
+					view.printMessage("Inserta una localidad: \n---------"); 
+					String localidad1 = lector.next();
+					
+					SimpleDateFormat objSDF= new SimpleDateFormat("YYYY/MM/DD-HH:MM:ss");
+					Date fecha11=null;
+					Date fecha22=null;
+					try {
+
+						fecha11=objSDF.parse(fecha1);
+						fecha22=objSDF.parse(fecha2);
+						
+
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					modelo.parteApunto3(fecha11, fecha22, localidad1);
+					
+					break;
 				case 5: 
+					view.printMessage("Inserta un número n \n---------"); 
+					int n = lector.nextInt();
+					modelo.parteBpunto1(n);
+					break;
+					
+				case 6: 
+					view.printMessage("Inserte el medio de deteccion: \n---------"); 
+					String mediodeteccion = lector.next();
+					view.printMessage("Inserte la clase del vehiculo: \n---------"); 
+					String clasevehi = lector.next();
+					view.printMessage("Inserte el tipo de servicio: \n---------"); 
+					String tiposervi = lector.next();
+					view.printMessage("Inserte la localidad: \n---------"); 
+					String localidad = lector.next();
+					modelo.parteBpunto2(mediodeteccion, clasevehi, tiposervi, localidad);
+					break;
+				case 7: 
+					view.printMessage("Inserta la latitud inicial: \n---------"); 
+					double la1 = lector.nextDouble();
+					view.printMessage("Inserta la latitud final: \n---------"); 
+					double la2 = lector.nextDouble();
+					
+					modelo.parteBpunto3(la1, la2);
+					break;
+				
+				case 8: 
 					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 					lector.close();
 					fin = true;

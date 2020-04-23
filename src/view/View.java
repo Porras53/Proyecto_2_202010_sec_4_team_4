@@ -21,7 +21,10 @@ public class View
 			System.out.println("5. Requerimiento 1B.");
 			System.out.println("6. Requerimiento 2B.");
 			System.out.println("7. Requerimiento 3B.");
-			System.out.println("8. Exit");
+			System.out.println("8. Requerimiento 1C.");
+			System.out.println("9. Requerimiento 2C.");
+			System.out.println("10. Requerimiento 3C.");
+			System.out.println("11. Exit");
 			System.out.println("Dar el numero de opcion a resolver, luego oprimir tecla Return: (e.g., 1):");
 		}
 

@@ -496,7 +496,7 @@ public class ArbolRojoNegroBTS<K extends Comparable<K>, V> {
 	        if (hi == null) throw new IllegalArgumentException("second argument to keys() is null");
 
 	        ListaDoblementeEncadenada<K> queue = new ListaDoblementeEncadenada<K>();
-	        // if (isEmpty() || lo.compareTo(hi) > 0) return queue;
+	        if (isEmpty() || lo.compareTo(hi) > 0) return queue;
 	        keys(root, queue, lo, hi);
 	        return queue;
 	    } 

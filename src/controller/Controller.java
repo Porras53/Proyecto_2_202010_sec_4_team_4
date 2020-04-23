@@ -127,8 +127,16 @@ public class Controller {
 					
 					modelo.parteBpunto3(la1, la2);
 					break;
-				
 				case 8: 
+					view.printMessage("Inserta un número n que indica el rango de fechas: \n---------"); 
+					int n2 = lector.nextInt();
+					modelo.parteCpunto1(n2);
+					break;
+				case 9: 
+					modelo.parteCpunto2();
+					break;
+				
+				case 11: 
 					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 					lector.close();
 					fin = true;

@@ -43,7 +43,7 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 	Iterator<K> resp=lista.iterator();
 	return resp;
 }
-	private int hash(K key) {
+	public int hash(K key) {
 		
 		// TODO Auto-generated method stub
 		return (key.hashCode() & 0x7fffffff)%tamTotal;
@@ -116,6 +116,13 @@ public class HashSeparateChaining <K extends Comparable<K>, V extends Comparable
 		}
 		return resp;
 	}
+	
+	public NodoHash22 getSetNodo(K key){
+		NodoHash22<K,ListaDoblementeEncadenada<V>> variable= nodosSet[hash(key)];
+		
+		return variable;
+	}
+	
 	public void rehashSet() {
 		
 		int temp=tamTotal*2;

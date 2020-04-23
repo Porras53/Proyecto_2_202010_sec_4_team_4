@@ -20,6 +20,7 @@ public class Comparendo implements Comparable<Comparendo>{
 	private double distanciaconestacion;
 	private KeyComparendo llave;
 	private int indicador;
+	private int penacompa;
 
 	public Comparendo(int id,String fecha,String mediodeteccion ,String clasevehiculo,String tiposervicio,String infraccion,String desinfraccion,String localidad,String municipio ,double longitud,double latitud,double distanciaconestacion)
 	{
@@ -44,6 +45,7 @@ public class Comparendo implements Comparable<Comparendo>{
 		this.latitud=latitud;
 		this.distanciaconestacion=distanciaconestacion;
 		this.indicador=0;
+		this.penacompa=0;
 
 		SimpleDateFormat objSDF2= new SimpleDateFormat("yyyy/MM/dd");
 
@@ -202,6 +204,19 @@ public class Comparendo implements Comparable<Comparendo>{
 			
 			return retorno;
 		}
+		else if(indicador==4) 
+		{
+			int retorno=0;
+			if(penacompa>compa.getPenacompa()) 
+			{
+				retorno=1;
+			}
+			else if(penacompa<compa.getPenacompa() ) 
+			{
+				retorno=-1;
+			}
+			return retorno;
+		}
 		else
 		{
 			if(id > compa.id)
@@ -259,6 +274,16 @@ public class Comparendo implements Comparable<Comparendo>{
 
 	public void setLatitud(double latitud) {
 		this.latitud = latitud;
+	}
+
+
+	public int getPenacompa() {
+		return penacompa;
+	}
+
+
+	public void setPenacompa(int penacompa) {
+		this.penacompa = penacompa;
 	}
 
 

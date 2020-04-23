@@ -29,13 +29,13 @@ public class Modelo {
 	private final static double LATITUD_ESTA_POLI=4.647586;
 
 	private final static double LONGITUD_ESTA_POLI=74.078122;
-	
-	private final static int CONS_ASTERISCO=150;
-	
-	private final static int CONS_NUMERAL=150;
-	
+
+	private final static int CONS_ASTERISCO=300;
+
+	private final static int CONS_NUMERAL=300;
+
 	private final static int CONS_PROCESADOS=1500;
-	
+
 	private static final int EARTH_RADIUS = 6371; // Approx Earth radius in KM
 	/**
 	 * Cola de lista encadenada.
@@ -400,7 +400,7 @@ public class Modelo {
 		Iterable<KeyComparendo> resultado= datosArbol.keys(datosArbol.min(),datosArbol.max());
 
 		Iterator<KeyComparendo> iterator= resultado.iterator();
-		
+
 		while(iterator.hasNext()) 
 		{
 			KeyComparendo llave= (KeyComparendo) iterator.next();
@@ -421,20 +421,20 @@ public class Modelo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}        
-		
+
 		Date fechaf=null;
-		
+
 		System.out.println("Rango de fechas         | Comparendos durante el año  \n ---------------------------------------");
 		while(!terminado) {
 
 			String nuevo=objSDF2.format(fechai);
-			
+
 			String linea=nuevo+"-";
-			
+
 			String[] dma= nuevo.split("/");
 			int nuevodia=(Integer.parseInt(dma[2])+(d-1));
 			int mes=(Integer.parseInt(dma[1]));
-			
+
 			if(nuevodia>31 && (mes==1 || mes==3 || mes==5 || mes==7 || mes==8 || mes==10)) 
 			{
 				mes++;
@@ -455,21 +455,21 @@ public class Modelo {
 				mes=12;
 				nuevodia=31;
 			}
-			
+
 			String nuevodiastring=nuevodia+"";
 			String nuevomesstring=mes+"";
-			
+
 			if(mes<10) 
 			{
 				nuevomesstring="0"+nuevomesstring;
 			}
-			
-			
+
+
 			if(nuevodia<10) 
 			{
 				nuevodiastring="0"+nuevodiastring;
 			}
-			
+
 			nuevo=dma[0]+"/"+nuevomesstring+"/"+nuevodiastring;
 
 			linea=linea+nuevo+" | ";
@@ -479,149 +479,149 @@ public class Modelo {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}                          	
-			
+
 			int cont=0;
 			int k=0;
 			NodoHash22[] comparendos=tablahash.getNodosSet();
 			while(k<tablahash.getTamTotal()) 
 			{
 				if(comparendos[k]!=null) {
-				if((comparendos[k].darE()).compareTo(fechai)>=0 && (comparendos[k].darE()).compareTo(fechaf)<=0) {
-					
-					cont+=((ListaDoblementeEncadenada) comparendos[k].darv()).darLongitud();
-					
-				}
+					if((comparendos[k].darE()).compareTo(fechai)>=0 && (comparendos[k].darE()).compareTo(fechaf)<=0) {
+
+						cont+=((ListaDoblementeEncadenada) comparendos[k].darv()).darLongitud();
+
+					}
 				}
 				k++;
 			}
 
 			int canasterisco=cont/CONS_ASTERISCO;
-			
+
 			if(cont % CONS_ASTERISCO !=0) 
 			{
 				canasterisco++;
 			}
-			
+
 			int j=0;
 			while(j<canasterisco) 
 			{
 				linea+="*";
 				j++;
 			}
-			
+
 			linea+="\n";
-			
+
 			System.out.println(linea);
-			
+
 			/**
 			 *  Antes de esto generar los asteriscos.
 			 */
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
 			String nuevo1=objSDF2.format(fechaf);
 
 			String[] dma1= nuevo1.split("/");
-			
-			
+
+
 			if(Integer.parseInt(dma[1])==12 && Integer.parseInt(dma1[2])==31) 
-			
+
 			{
 				terminado=true;
 			}
-			
+
 			else
-				
+
 			{
-				
-			int nuevodia1=(Integer.parseInt(dma1[2])+(1));
-			
-			nuevo1=dma1[0]+"/"+dma1[1]+"/"+nuevodia1;
-			mes=Integer.parseInt(dma1[1]);
-			
-			if(nuevodia1>31 && (mes==1 || mes==3 || mes==5 || mes==7 || mes==8 || mes==10)) 
-			{
-				mes++;
-				nuevodia1=nuevodia1%31;
+
+				int nuevodia1=(Integer.parseInt(dma1[2])+(1));
+
+				nuevo1=dma1[0]+"/"+dma1[1]+"/"+nuevodia1;
+				mes=Integer.parseInt(dma1[1]);
+
+				if(nuevodia1>31 && (mes==1 || mes==3 || mes==5 || mes==7 || mes==8 || mes==10)) 
+				{
+					mes++;
+					nuevodia1=nuevodia1%31;
+				}
+				else if(nuevodia1>30 && (mes==4 || mes==6 || mes==9 || mes==11)) 
+				{
+					mes++;
+					nuevodia1=nuevodia1%30;
+				}
+				else if(nuevodia1>28 && mes==2)
+				{
+					mes++;
+					nuevodia1=nuevodia1%28;
+				}
+				else if(mes==12 && (nuevodia1>31)) 
+				{
+					mes=12;
+					nuevodia1=31;
+				}
+
+				nuevodiastring=nuevodia1+"";
+				nuevomesstring=mes+"";
+
+				if(mes<10) 
+				{
+					nuevomesstring="0"+nuevomesstring;
+				}
+
+
+				if(nuevodia<10) 
+				{
+					nuevodiastring="0"+nuevodiastring;
+				}
+
+				nuevo1=dma[0]+"/"+nuevomesstring+"/"+nuevodiastring;
+
+				try {
+					fechai=objSDF2.parse(nuevo1);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			else if(nuevodia1>30 && (mes==4 || mes==6 || mes==9 || mes==11)) 
-			{
-				mes++;
-				nuevodia1=nuevodia1%30;
-			}
-			else if(nuevodia1>28 && mes==2)
-			{
-				mes++;
-				nuevodia1=nuevodia1%28;
-			}
-			else if(mes==12 && (nuevodia1>31)) 
-			{
-				mes=12;
-				nuevodia1=31;
-			}
-			
-			nuevodiastring=nuevodia1+"";
-			nuevomesstring=mes+"";
-			
-			if(mes<10) 
-			{
-				nuevomesstring="0"+nuevomesstring;
-			}
-			
-			
-			if(nuevodia<10) 
-			{
-				nuevodiastring="0"+nuevodiastring;
-			}
-			
-			nuevo1=dma[0]+"/"+nuevomesstring+"/"+nuevodiastring;
-			
-			try {
-				fechai=objSDF2.parse(nuevo1);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			}
-			
-			
-			
+
+
+
 		}
 
 
 	}
-	
+
 	public void parteCpunto2() 
 	{
 		/**
 		 * Carga en una tabla de hash
 		 */
-		
+
 		HashSeparateChaining tablahash= new HashSeparateChaining();
 
 		Iterable<KeyComparendo> resultado= datosArbol.keys(datosArbol.min(),datosArbol.max());
 
 		Iterator<KeyComparendo> iterator= resultado.iterator();
-		
+
 		while(iterator.hasNext()) 
 		{
 			KeyComparendo llave= (KeyComparendo) iterator.next();
 			Comparendo comparendo=(Comparendo)datosArbol.get(llave);
 			tablahash.putInSet(comparendo.getLlave().getFecha(), comparendo);
 		}
-		
+
 		/**
 		 * Recorrer la tabla para cada día.
 		 */
 		System.out.println("Fecha    | Comparendos procesado *** \n         | Comparendos que estan en espera  ### \n ---------------------------------------------- \n");
-		
-		
-		
+
+
+
 		String fecha="2018/01/01";
-		
+
 		SimpleDateFormat objSDF2= new SimpleDateFormat("yyyy/MM/dd");
 
 		Date fechai=null;
@@ -632,99 +632,466 @@ public class Modelo {
 			e.printStackTrace();
 		}        
 		boolean terminado=false;
-		
+
 		int diapromde4=0;
 		int diaminde4=1000;
 		int diamaxde4=0;
 		int numprocesados4=0;
-		
+
 		int diapromde40=0;
 		int diaminde40=1000;
 		int diamaxde40=0;
 		int numprocesados40=0;
-		
+
 		int diapromde400=0;
 		int diaminde400=1000;
 		int diamaxde400=0;
 		int numprocesados400=0;
-		
+
 		int numpromdediasespera=0;
 		int penalizacionestotal=0;
-		
+
 		int numprocesadostotal=0;
-		
-		
+
+
 		ListaDoblementeEncadenada coladeespera= new ListaDoblementeEncadenada();
-		
+
 		while(!terminado) {
-			
+
 			String[] dma2= objSDF2.format(fechai).split("/");
 			int diahoy=(Integer.parseInt(dma2[2]));
 			int meshoy=(Integer.parseInt(dma2[1]));
-			
+
 			String retorno=objSDF2.format(fechai)+" | ";
-			
-			
+
+
 			/**
 			 * Procesar los 1500 comparendos del dia.
 			 */
 			int cantprocehoy=0;
 			boolean finish=false;
 			int u=0;
-			
+
 			while(u<CONS_PROCESADOS && !finish) 
 			{
-				
+
 				Comparendo c=(Comparendo)coladeespera.eliminarComienzo();
 				if(c!=null) 
 				{
-				 /**
-				 * falta hacer el calculo luego del posible vencimiento
-				 */
+					/**
+					 * falta hacer el calculo luego del posible vencimiento
+					 */
 					String[] dmy= objSDF2.format(c.getLlave().getFecha()).split("/");
 					int diacompa=(Integer.parseInt(dmy[2]));
 					int mescompa=(Integer.parseInt(dmy[1]));
-					int diasretrasado=0;
+					int diasretrasado=(int) ((fechai.getTime()-c.getLlave().getFecha().getTime())/86400000);;
+
 					
-					if(meshoy==mescompa&& diahoy!=diacompa) 
-					{
-						diasretrasado=diahoy-diacompa;
-					}
-					
-					if(meshoy!=mescompa && diahoy!=diacompa)
-					{
-						diasretrasado+=diahoy;
-						
-						int diasfinalmes=0;
-						if(mescompa==1 || mescompa==3 || mescompa==5 || mescompa==7 || mescompa==8 || mescompa==10) 
-						{
-							diasfinalmes=31-diacompa;
-						}
-						
-						if(mescompa==4 || mescompa==6 || mescompa==9 || mescompa==11) 
-						{
-							diasfinalmes=30-diacompa;
-						}
-						
-						if(mescompa==2) 
-						{
-							diasfinalmes=28-diacompa;
-						}
-						
-						diasretrasado+=diasfinalmes;
-						numpromdediasespera+=diasretrasado;
-						
-					}
-					
+
 					/**
 					 * Encontrar el tipo de penalizacion.
 					 */
 					int multipena=0; 
 					if(diasretrasado!=0) 
 					{
+						String descompa=c.getDesinfraccion();
+						if(descompa.contains("SERA INMOVILIZADO") || (descompa.contains("SER") && (descompa.contains(" INMOVILIZADO")))  ) 
+
+						{
+							multipena=400;
+							if(diasretrasado>diamaxde400) 
+							{
+								diamaxde400=diasretrasado;
+							}
+							if(diasretrasado<diaminde400) 
+							{
+								diaminde400=diasretrasado;
+							}
+
+							diapromde400+=diasretrasado;
+							numprocesados400++;
+						}
+
+						else if(descompa.contains("LICENCIA DE CONDUCCIÃ“N")) 
+
+						{
+							multipena=40;
+							if(diasretrasado>diamaxde40) 
+							{
+								diamaxde40=diasretrasado;
+							}
+							if(diasretrasado<diaminde40) 
+							{
+								diaminde40=diasretrasado;
+							}
+
+							diapromde40+=diasretrasado;
+							numprocesados40++;
+						}
+
+						else
+
+						{
+							multipena=4;
+							if(diasretrasado>diamaxde4) 
+							{
+								diamaxde4=diasretrasado;
+							}
+							if(diasretrasado<diaminde4) 
+							{
+								diaminde4=diasretrasado;
+							}
+							diapromde4+=diasretrasado;
+							numprocesados4++;
+						}
+
+					}
+
+
+					penalizacionestotal+=multipena*diasretrasado;
+					numprocesadostotal++;
+					cantprocehoy++;
+				}
+				else 
+				{
+					finish=true;
+				}
+
+
+				u++;
+			}
+
+			/**
+			 * Contabilizacion de comparendos procesados y en cola 
+			 */
+			int cont=0;
+			int k=tablahash.hash(fechai);
+			NodoHash22[] comparendos=tablahash.getNodosSet();
+
+
+			cont+=((ListaDoblementeEncadenada) comparendos[k].darv()).darLongitud();
+			Node actual1= ((ListaDoblementeEncadenada)comparendos[k].darv()).darCabeza2();
+			while(actual1!=null) 
+			{
+				/**
+				 * Poner en espera los nmuevos comparendos del día.
+				 */
+				coladeespera.insertarFinal(actual1.darE());
+				actual1=actual1.darSiguiente();
+			}
+
+			if(cantprocehoy<CONS_PROCESADOS) 
+			{
+				/*
+				 * PROCESARLOS FALTANTES DEL DIA...
+				 */
+				boolean finish1=false;
+				int restante=CONS_PROCESADOS-cantprocehoy;
+				int p=0;
+
+				while(p<restante && !finish1) 
+				{
+					Comparendo c1=(Comparendo)coladeespera.eliminarComienzo();
+					if(c1!=null) 
+					{
+						/**
+						 * falta hacer el calculo luego del posible vencimiento
+						 */
+						String[] dmy= objSDF2.format(c1.getLlave().getFecha()).split("/");
+						int diacompa=(Integer.parseInt(dmy[2]));
+						int mescompa=(Integer.parseInt(dmy[1]));
+
+						int diasretrasado=(int) ((fechai.getTime()-c1.getLlave().getFecha().getTime())/86400000);;
+
+
+						/**
+						 * Encontrar el tipo de penalizacion.
+						 */
+						int multipena=0; 
+						if(diasretrasado!=0) 
+						{
+
+							String descompa=c1.getDesinfraccion();
+							if(descompa.contains("SERA INMOVILIZADO") || (descompa.contains("SER") && (descompa.contains(" INMOVILIZADO")))  ) 
+
+							{
+								multipena=400;
+								if(diasretrasado>diamaxde400) 
+								{
+									diamaxde400=diasretrasado;
+								}
+								if(diasretrasado<diaminde400) 
+								{
+									diaminde400=diasretrasado;
+								}
+
+								diapromde400+=diasretrasado;
+								numprocesados400++;
+							}
+
+							else if(descompa.contains("LICENCIA DE CONDUCCIÃ“N")) 
+
+							{
+								multipena=40;
+								if(diasretrasado>diamaxde40) 
+								{
+									diamaxde40=diasretrasado;
+								}
+								if(diasretrasado<diaminde40) 
+								{
+									diaminde40=diasretrasado;
+								}
+
+								diapromde40+=diasretrasado;
+								numprocesados40++;
+							}
+
+							else
+
+							{
+								multipena=4;
+								if(diasretrasado>diamaxde4) 
+								{
+									diamaxde4=diasretrasado;
+								}
+								if(diasretrasado<diaminde4) 
+								{
+									diaminde4=diasretrasado;
+								}
+								diapromde4+=diasretrasado;
+								numprocesados4++;
+							}
+						}
+
+
+
+						penalizacionestotal+=multipena*diasretrasado;
+						numprocesadostotal++;
+						cantprocehoy++;
+					}
+					else 
+					{
+						finish1=true;
+					}
+
+					p++;
+				}
+
+			}
+
+
+
+			int numerodeasteriscos=cantprocehoy/CONS_ASTERISCO;
+			if(cantprocehoy%CONS_ASTERISCO !=0) 
+			{
+				numerodeasteriscos++;
+			}
+
+			for(int y=0;y<numerodeasteriscos;y++) 
+			{
+				retorno+="*";
+			}
+
+			retorno+="\n           | ";
+
+			int numerodenumerales=coladeespera.darLongitud()/CONS_NUMERAL;
+			if(coladeespera.darLongitud()%CONS_NUMERAL !=0) 
+			{
+				numerodenumerales++;
+			}
+
+
+			for(int y=0;y<numerodenumerales;y++) 
+			{
+				retorno+="#";
+			}
+
+			retorno+="\n";
+
+			System.out.println(retorno);
+
+			String nuevo=objSDF2.format(fechai);
+
+
+			String[] dma= nuevo.split("/");
+			int nuevodia=(Integer.parseInt(dma[2])+(1));
+			int mes=(Integer.parseInt(dma[1]));
+
+			if(nuevodia>31 && (mes==1 || mes==3 || mes==5 || mes==7 || mes==8 || mes==10)) 
+			{
+				mes++;
+				nuevodia=nuevodia%31;
+			}
+			else if(nuevodia>30 && (mes==4 || mes==6 || mes==9 || mes==11)) 
+			{
+				mes++;
+				nuevodia=nuevodia%30;
+			}
+			else if(nuevodia>28 && mes==2)
+			{
+				mes++;
+				nuevodia=nuevodia%28;
+			}
+			else if(mes==12 && (nuevodia>31)) 
+			{
+				mes=12;
+				nuevodia=31;
+				terminado=true;
+			}
+
+			String nuevodiastring=nuevodia+"";
+			String nuevomesstring=mes+"";
+
+			if(mes<10) 
+			{
+				nuevomesstring="0"+nuevomesstring;
+			}
+
+
+			if(nuevodia<10) 
+			{
+				nuevodiastring="0"+nuevodiastring;
+			}
+
+			nuevo=dma[0]+"/"+nuevomesstring+"/"+nuevodiastring;
+
+			try {
+				fechai=objSDF2.parse(nuevo);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+
+		System.out.println("El costo total que generan las penalizaciones en 2018 es= "+penalizacionestotal+" (COP)");
+		System.out.println("El numero de 4: "+numprocesados4);
+		System.out.println("El numero de 40: "+numprocesados40);
+		System.out.println("El numero de 400: "+numprocesados400);
+		System.out.println("El numero de dias en promedio que debe esperar un comparendo es= "+numpromdediasespera/numprocesadostotal);
+
+		System.out.println("Costo diario del comparendo | Tiempo mínimo de espera(días) | Tiempo promedio de espera(días) | Tiempo máximo de espera(días)");
+		System.out.println("$400                        | "+diaminde400+"                                           | "+diapromde400/numprocesados400+"                                           | "+diamaxde400);
+		System.out.println("$40                         | "+diaminde40+"                                           | "+diapromde40/numprocesados40+"                                           | "+diamaxde40);
+		System.out.println("$4                          | "+diaminde4+"                                           | "+diapromde4/numprocesados4+"                                           | "+diamaxde4);
+
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public void parteCpunto3() 
+	{
+		/**
+		 * Carga en una tabla de hash
+		 */
+
+		HashSeparateChaining tablahash= new HashSeparateChaining();
+
+		Iterable<KeyComparendo> resultado= datosArbol.keys(datosArbol.min(),datosArbol.max());
+
+		Iterator<KeyComparendo> iterator= resultado.iterator();
+
+		while(iterator.hasNext()) 
+		{
+			KeyComparendo llave= (KeyComparendo) iterator.next();
+			Comparendo comparendo=(Comparendo)datosArbol.get(llave);
+			tablahash.putInSet(comparendo.getLlave().getFecha(), comparendo);
+		}
+
+		/**
+		 * Recorrer la tabla para cada día.
+		 */
+		System.out.println("Fecha    | Comparendos procesado *** \n         | Comparendos que estan en espera  ### \n ---------------------------------------------- \n");
+
+
+
+		String fecha="2018/01/01";
+
+		SimpleDateFormat objSDF2= new SimpleDateFormat("yyyy/MM/dd");
+
+		Date fechai=null;
+		try {
+			fechai=objSDF2.parse(fecha);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}        
+		boolean terminado=false;
+
+		int diapromde4=0;
+		int diaminde4=1000;
+		int diamaxde4=0;
+		int numprocesados4=0;
+
+		int diapromde40=0;
+		int diaminde40=1000;
+		int diamaxde40=0;
+		int numprocesados40=0;
+
+		int diapromde400=0;
+		int diaminde400=1000;
+		int diamaxde400=0;
+		int numprocesados400=0;
+
+		int numpromdediasespera=0;
+		int penalizacionestotal=0;
+
+		int numprocesadostotal=0;
+
+
+		MaxColaCP coladeespera= new MaxColaCP();
+
+		while(!terminado) {
+
+			String[] dma2= objSDF2.format(fechai).split("/");
+			int diahoy=(Integer.parseInt(dma2[2]));
+			int meshoy=(Integer.parseInt(dma2[1]));
+
+			String retorno=objSDF2.format(fechai)+" | ";
+
+
+			/**
+			 * Procesar los 1500 comparendos del dia.
+			 */
+			int cantprocehoy=0;
+			boolean finish=false;
+			int u=0;
+
+			while(u<CONS_PROCESADOS && !coladeespera.esVacia()) 
+			{
+				Comparendo c=(Comparendo) coladeespera.sacarMax();
+				/**
+				 * falta hacer el calculo luego del posible vencimiento
+				 */
+				String[] dmy= objSDF2.format(c.getLlave().getFecha()).split("/");
+				int diacompa=(Integer.parseInt(dmy[2]));
+				int mescompa=(Integer.parseInt(dmy[1]));
+
+				int diasretrasado=(int) ((fechai.getTime()-c.getLlave().getFecha().getTime())/86400000);
+
+				numpromdediasespera+=diasretrasado;
+
+				
+
+				/**
+				 * Encontrar el tipo de penalizacion.
+				 */
+				int multipena=0; 
+				if(diasretrasado!=0) 
+				{
+
 					String descompa=c.getDesinfraccion();
-					if(descompa.contains("SERA INMOVILIZADO") || descompa.contains("SERÃ  INMOVILIZADO")) 
-						
+					if(descompa.contains("SERA INMOVILIZADO") || (descompa.contains("SER") && (descompa.contains(" INMOVILIZADO")))  ) 
+
 					{
 						multipena=400;
 						if(diasretrasado>diamaxde400) 
@@ -735,13 +1102,13 @@ public class Modelo {
 						{
 							diaminde400=diasretrasado;
 						}
-						
+
 						diapromde400+=diasretrasado;
 						numprocesados400++;
 					}
-					
-					if(descompa.contains("LICENCIA DE CONDUCCIÃ“N")) 
-						
+
+					else if(descompa.contains("LICENCIA DE CONDUCCIÃ“N")) 
+
 					{
 						multipena=40;
 						if(diasretrasado>diamaxde40) 
@@ -752,13 +1119,13 @@ public class Modelo {
 						{
 							diaminde40=diasretrasado;
 						}
-						
+
 						diapromde40+=diasretrasado;
 						numprocesados40++;
 					}
-					
-					if(!descompa.contains("LICENCIA DE CONDUCCIÃ“N") && !(descompa.contains("SERA INMOVILIZADO") || descompa.contains("SERÃ  INMOVILIZADO"))) 
-						
+
+					else
+
 					{
 						multipena=4;
 						if(diasretrasado>diamaxde4) 
@@ -772,208 +1139,187 @@ public class Modelo {
 						diapromde4+=diasretrasado;
 						numprocesados4++;
 					}
-					
-					}
-					
-					
-					penalizacionestotal+=multipena*diasretrasado;
-					numprocesadostotal++;
-					cantprocehoy++;
 				}
-				else 
-				{
-					finish=true;
-				}
-				
-				
+
+
+
+				penalizacionestotal+=multipena*diasretrasado;
+				numprocesadostotal++;
+				cantprocehoy++;
+
+
 				u++;
 			}
-			
+
 			/**
 			 * Contabilizacion de comparendos procesados y en cola 
 			 */
 			int cont=0;
 			int k=tablahash.hash(fechai);
 			NodoHash22[] comparendos=tablahash.getNodosSet();
-			
-					
-					cont+=((ListaDoblementeEncadenada) comparendos[k].darv()).darLongitud();
-					Node actual1= ((ListaDoblementeEncadenada)comparendos[k].darv()).darCabeza2();
-					while(actual1!=null) 
-					{
-						/**
-						 * Poner en espera los nmuevos comparendos del día.
-						 */
-						coladeespera.insertarFinal(actual1.darE());
-						actual1=actual1.darSiguiente();
-					}
-					
-					if(cantprocehoy<CONS_PROCESADOS) 
-					{
-						/*
-						 * PROCESARLOS FALTANTES DEL DIA...
-						 */
-						boolean finish1=false;
-						int restante=CONS_PROCESADOS-cantprocehoy;
-						int p=0;
-						
-						while(p<restante && !finish1) 
-						{
-							Comparendo c1=(Comparendo)coladeespera.eliminarComienzo();
-							if(c1!=null) 
-							{
-								/**
-								 * falta hacer el calculo luego del posible vencimiento
-								 */
-									String[] dmy= objSDF2.format(c1.getLlave().getFecha()).split("/");
-									int diacompa=(Integer.parseInt(dmy[2]));
-									int mescompa=(Integer.parseInt(dmy[1]));
-									
-									int diasretrasado=0;
-									
-									if(meshoy==mescompa && diahoy!=diacompa) 
-									{
-										diasretrasado=diahoy-diacompa;
-									}
-									
-									else if(meshoy!=mescompa && diahoy!=diacompa)
-									{
-										
-										diasretrasado=diasretrasado+diahoy;
-										int diasfinalmes=0;
-										if(mescompa==1 || mescompa==3 || mescompa==5 || mescompa==7 || mescompa==8 || mescompa==10) 
-										{
-											diasfinalmes=31-diacompa;
-										}
-										
-										if(mescompa==4 || mescompa==6 || mescompa==9 || mescompa==11) 
-										{
-											diasfinalmes=30-diacompa;
-										}
-										
-										if(mescompa==2) 
-										{
-											diasfinalmes=28-diacompa;
-										}
-										
-										diasretrasado+=diasfinalmes;
-										numpromdediasespera+=diasretrasado;
-										
-									}
-									
-									/**
-									 * Encontrar el tipo de penalizacion.
-									 */
-									int multipena=0; 
-									if(diasretrasado!=0) 
-									{
-									
-									String descompa=c1.getDesinfraccion();
-									if(descompa.contains("SERA INMOVILIZADO") || descompa.contains("SERÃ  INMOVILIZADO")) 
-										
-									{
-										multipena=400;
-										if(diasretrasado>diamaxde400) 
-										{
-											diamaxde400=diasretrasado;
-										}
-										if(diasretrasado<diaminde400) 
-										{
-											diaminde400=diasretrasado;
-										}
-										
-										diapromde400+=diasretrasado;
-										numprocesados400++;
-									}
-									
-									if(descompa.contains("LICENCIA DE CONDUCCIÃ“N")) 
-										
-									{
-										multipena=40;
-										if(diasretrasado>diamaxde40) 
-										{
-											diamaxde40=diasretrasado;
-										}
-										if(diasretrasado<diaminde40) 
-										{
-											diaminde40=diasretrasado;
-										}
-										
-										diapromde40+=diasretrasado;
-										numprocesados40++;
-									}
-									
-									if(!descompa.contains("LICENCIA DE CONDUCCIÃ“N") && !(descompa.contains("SERA INMOVILIZADO") || descompa.contains("SERÃ  INMOVILIZADO"))) 
-										
-									{
-										multipena=4;
-										if(diasretrasado>diamaxde4) 
-										{
-											diamaxde4=diasretrasado;
-										}
-										if(diasretrasado<diaminde4) 
-										{
-											diaminde4=diasretrasado;
-										}
-										diapromde4+=diasretrasado;
-										numprocesados4++;
-									}
-									}
-									
-									
-									
-									penalizacionestotal+=multipena*diasretrasado;
-									numprocesadostotal++;
-									cantprocehoy++;
-							}
-							else 
-							{
-								finish1=true;
-							}
-							
-							p++;
-						}
-					
+
+
+			cont+=((ListaDoblementeEncadenada) comparendos[k].darv()).darLongitud();
+			Node actual1= ((ListaDoblementeEncadenada)comparendos[k].darv()).darCabeza2();
+			while(actual1!=null) 
+			{
+				/**
+				 * Poner en espera los nmuevos comparendos del día.
+				 */
+				Integer llave=4;
+				String descompaagregar=((Comparendo)actual1.darE()).getDesinfraccion();
+				if(descompaagregar.contains("SERA INMOVILIZADO") || (descompaagregar.contains("SER") && (descompaagregar.contains(" INMOVILIZADO")))  ) 
+
+				{
+					llave=400;
+				}
+
+				else if(descompaagregar.contains("LICENCIA DE CONDUCCIÃ“N")) 
+
+				{
+					llave=40;
+				}
+				
+				((Comparendo)actual1.darE()).setIndicador(4);
+				((Comparendo)actual1.darE()).setPenacompa(llave);
+				coladeespera.agregar(actual1.darE());
+				actual1=actual1.darSiguiente();
 			}
-			
-			
-			
+
+			if(cantprocehoy<CONS_PROCESADOS) 
+			{
+				/*
+				 * PROCESARLOS FALTANTES DEL DIA...
+				 */
+				boolean finish1=false;
+				int restante=CONS_PROCESADOS-cantprocehoy;
+				int p=0;
+
+				while(p<restante && !coladeespera.esVacia()) 
+				{
+						
+						Comparendo c1=(Comparendo) coladeespera.sacarMax();
+					
+						/**
+						 * falta hacer el calculo luego del posible vencimiento
+						 */
+						String[] dmy= objSDF2.format(c1.getLlave().getFecha()).split("/");
+						int diacompa=(Integer.parseInt(dmy[2]));
+						int mescompa=(Integer.parseInt(dmy[1]));
+
+						int diasretrasado=(int) ((fechai.getTime()-c1.getLlave().getFecha().getTime())/86400000);
+
+						numpromdediasespera+=diasretrasado;
+
+						
+
+						/**
+						 * Encontrar el tipo de penalizacion.
+						 */
+						int multipena=0; 
+						if(diasretrasado!=0) 
+						{
+
+							String descompa=c1.getDesinfraccion();
+							if(descompa.contains("SERA INMOVILIZADO") || (descompa.contains("SER") && (descompa.contains(" INMOVILIZADO")))  ) 
+
+							{
+								multipena=400;
+								if(diasretrasado>diamaxde400) 
+								{
+									diamaxde400=diasretrasado;
+								}
+								if(diasretrasado<diaminde400) 
+								{
+									diaminde400=diasretrasado;
+								}
+
+								diapromde400+=diasretrasado;
+								numprocesados400++;
+							}
+
+							else if(descompa.contains("LICENCIA DE CONDUCCIÃ“N")) 
+
+							{
+								multipena=40;
+								if(diasretrasado>diamaxde40) 
+								{
+									diamaxde40=diasretrasado;
+								}
+								if(diasretrasado<diaminde40) 
+								{
+									diaminde40=diasretrasado;
+								}
+
+								diapromde40+=diasretrasado;
+								numprocesados40++;
+							}
+
+							else
+
+							{
+								multipena=4;
+								if(diasretrasado>diamaxde4) 
+								{
+									diamaxde4=diasretrasado;
+								}
+								if(diasretrasado<diaminde4) 
+								{
+									diaminde4=diasretrasado;
+								}
+								diapromde4+=diasretrasado;
+								numprocesados4++;
+							}
+						}
+
+
+
+						penalizacionestotal+=multipena*diasretrasado;
+						numprocesadostotal++;
+						cantprocehoy++;
+						p++;
+				}
+
+			}
+
+
+
 			int numerodeasteriscos=cantprocehoy/CONS_ASTERISCO;
 			if(cantprocehoy%CONS_ASTERISCO !=0) 
 			{
 				numerodeasteriscos++;
 			}
-			
+
 			for(int y=0;y<numerodeasteriscos;y++) 
 			{
 				retorno+="*";
 			}
-			
+
 			retorno+="\n           | ";
-			
-			int numerodenumerales=coladeespera.darLongitud()/CONS_NUMERAL;
-			if(coladeespera.darLongitud()%CONS_NUMERAL !=0) 
+
+			int numerodenumerales=coladeespera.darNumElementos()/CONS_NUMERAL;
+			if(coladeespera.darNumElementos()%CONS_NUMERAL !=0) 
 			{
 				numerodenumerales++;
 			}
-			
-			
+
+
 			for(int y=0;y<numerodenumerales;y++) 
 			{
 				retorno+="#";
 			}
-			
+
 			retorno+="\n";
-			
+
 			System.out.println(retorno);
-			
+
 			String nuevo=objSDF2.format(fechai);
-			
-			
+
+
 			String[] dma= nuevo.split("/");
 			int nuevodia=(Integer.parseInt(dma[2])+(1));
 			int mes=(Integer.parseInt(dma[1]));
-			
+
 			if(nuevodia>31 && (mes==1 || mes==3 || mes==5 || mes==7 || mes==8 || mes==10)) 
 			{
 				mes++;
@@ -995,21 +1341,21 @@ public class Modelo {
 				nuevodia=31;
 				terminado=true;
 			}
-			
+
 			String nuevodiastring=nuevodia+"";
 			String nuevomesstring=mes+"";
-			
+
 			if(mes<10) 
 			{
 				nuevomesstring="0"+nuevomesstring;
 			}
-			
-			
+
+
 			if(nuevodia<10) 
 			{
 				nuevodiastring="0"+nuevodiastring;
 			}
-			
+
 			nuevo=dma[0]+"/"+nuevomesstring+"/"+nuevodiastring;
 
 			try {
@@ -1018,22 +1364,27 @@ public class Modelo {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
-		
-		
+
+
 		System.out.println("El costo total que generan las penalizaciones en 2018 es= "+penalizacionestotal+" (COP)");
+		System.out.println("El numero de 4: "+numprocesados4);
+		System.out.println("El numero de 40: "+numprocesados40);
+		System.out.println("El numero de 400: "+numprocesados400);
 		System.out.println("El numero de dias en promedio que debe esperar un comparendo es= "+numpromdediasespera/numprocesadostotal);
-		
+
 		System.out.println("Costo diario del comparendo | Tiempo mínimo de espera(días) | Tiempo promedio de espera(días) | Tiempo máximo de espera(días)");
 		System.out.println("$400                        | "+diaminde400+"                                           | "+diapromde400/numprocesados400+"                                           | "+diamaxde400);
 		System.out.println("$40                         | "+diaminde40+"                                           | "+diapromde40/numprocesados40+"                                           | "+diamaxde40);
 		System.out.println("$4                          | "+diaminde4+"                                           | "+diapromde4/numprocesados4+"                                           | "+diamaxde4);
-		
-		
+
+
+
+
 	}
-	
-	
+
+
 
 }
 

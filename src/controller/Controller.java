@@ -135,6 +135,9 @@ public class Controller {
 				case 9: 
 					modelo.parteCpunto2();
 					break;
+				case 10: 
+					modelo.parteCpunto3();
+					break;
 				
 				case 11: 
 					view.printMessage("--------- \n Hasta pronto !! \n---------"); 

@@ -360,6 +360,12 @@ public class ArbolRojoNegroBTS<K extends Comparable<K>, V> {
             if (isEmpty()) throw new NoSuchElementException("calls max() with empty symbol table");
             return (K)max(root).darE();
         } 
+        
+        
+        public V max2() {
+            if (isEmpty()) throw new NoSuchElementException("calls max() with empty symbol table");
+            return (V)max(root).darv();
+        }
 
         // the largest key in the subtree rooted at x; null if no such key
        public NodoHash max(NodoHash x) { 

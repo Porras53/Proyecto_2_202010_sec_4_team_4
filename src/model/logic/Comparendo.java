@@ -75,7 +75,7 @@ public class Comparendo implements Comparable<Comparendo>{
 	@Override
 	public String toString()
 	{
-		return "Comparendo "+": id= "+id+ " ,fecha y hora= "+fecha.toString()+" ,localidad=" +localidad+" , infraccion= "+infraccion+ " Tipo Vehiculo="+clasevehi + ", tipo de servicio=" + tiposervi+ ", latitud="+latitud+" , longitud="+longitud;
+		return "Comparendo "+": id= "+id+ " ,fecha y hora= "+fecha.toString()+" ,localidad=" +localidad+" , infraccion= "+infraccion+ " Tipo Vehiculo="+clasevehi + ", tipo de servicio=" + tiposervi+ ", latitud="+latitud+" , longitud="+longitud +", distancia con esta="+distanciaconestacion;
 	}
 
 
@@ -181,11 +181,11 @@ public class Comparendo implements Comparable<Comparendo>{
 			int retorno=0;
 			if(distanciaconestacion<compa.getDistanciaconestacion()) 
 			{
-				retorno=1;
+				retorno=-1;
 			}
 			else if(distanciaconestacion>compa.getDistanciaconestacion())
 			{
-				retorno=-1;
+				retorno=1;
 			}
 				
 			return retorno;
@@ -215,6 +215,20 @@ public class Comparendo implements Comparable<Comparendo>{
 			{
 				retorno=-1;
 			}
+			return retorno;
+		}
+		else if(indicador==5)
+		{
+			int retorno=0;
+			if(fecha.compareTo(compa.getDate())>0) 
+			{
+				retorno=-1;
+			}
+			else if(fecha.compareTo(compa.getDate())<0 ) 
+			{
+				retorno=1;
+			}
+			
 			return retorno;
 		}
 		else

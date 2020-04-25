@@ -78,14 +78,14 @@ public class Controller {
 					
 					break;
 				case 4: 
-					view.printMessage("Inserta una fecha inicial en el formato: (YYYY/MM/DD-HH:MM:ss): \n---------"); 
+					view.printMessage("Inserta una fecha inicial en el formato: (yyyy/MM/dd-HH:mm:ss): \n---------"); 
 					String fecha1 = lector.next();
-					view.printMessage("Inserta una fecha inicial en el formato: (YYYY/MM/DD-HH:MM:ss): \n---------"); 
+					view.printMessage("Inserta una fecha inicial en el formato: (yyyy/MM/dd-HH:mm:ss): \n---------"); 
 					String fecha2 = lector.next();
 					view.printMessage("Inserta una localidad: \n---------"); 
 					String localidad1 = lector.next();
 					
-					SimpleDateFormat objSDF= new SimpleDateFormat("YYYY/MM/DD-HH:MM:ss");
+					SimpleDateFormat objSDF= new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss");
 					Date fecha11=null;
 					Date fecha22=null;
 					try {

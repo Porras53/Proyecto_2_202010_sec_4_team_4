@@ -28,11 +28,13 @@ public class Modelo {
 	 */
 	private final static double LATITUD_ESTA_POLI=4.647586;
 
-	private final static double LONGITUD_ESTA_POLI=74.078122;
+	private final static double LONGITUD_ESTA_POLI=-74.078122;
 
 	private final static int CONS_ASTERISCO=300;
 
 	private final static int CONS_NUMERAL=300;
+
+	private final static int N=20;
 
 	private final static int CONS_PROCESADOS=1500;
 
@@ -284,7 +286,7 @@ public class Modelo {
 
 		ListaDoblementeEncadenada resp=tabla.getSet(mes+","+pDia);
 		Node actual=resp.darCabeza2();
-		for(int i=0;i<resp.darLongitud() && actual != null;i++) 
+		for(int i=0;i<N && actual != null;i++) 
 		{
 			System.out.println(actual.darE().toString());
 			actual=actual.darSiguiente();
@@ -301,7 +303,7 @@ public class Modelo {
 
 			Comparendo c = (Comparendo) datosArbol.get(key);
 
-			SimpleDateFormat objSDF2= new SimpleDateFormat("YYYY/MM/DD-HH:MM:ss");
+			SimpleDateFormat objSDF2= new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss");
 
 			String nuevo=objSDF2.format(c.getDate());
 
@@ -313,13 +315,13 @@ public class Modelo {
 				e.printStackTrace();
 			} 
 
-			if(c.getLocalidad().equalsIgnoreCase(localidad.trim()) && nuevofinal.compareTo(fechaInicial)<=0 && nuevofinal.compareTo(fechaFinal)>=0)
-				resp.insertarComienzo(c);
+			if(c.getLocalidad().equalsIgnoreCase(localidad.trim()) && nuevofinal.compareTo(fechaInicial)>=0 && nuevofinal.compareTo(fechaFinal)<=0)
+				resp.insertarFinal(c);
 
 		}
 
 		Node actual=resp.darCabeza2();
-		for(int i=0;i<resp.darLongitud() && actual != null;i++) 
+		for(int i=0;i<N && actual != null;i++) 
 		{
 			System.out.println(actual.darE().toString());
 			actual=actual.darSiguiente();
@@ -341,11 +343,18 @@ public class Modelo {
 			comparendo.setIndicador(2);
 			maxcola2.agregar(comparendo);
 		}
+		ListaDoblementeEncadenada list = new ListaDoblementeEncadenada<Comparendo>();
+		
+		for (int i = 0; i < n; i++) {
+			list.insertarComienzo(maxcola2.eliminarMayor());
 
+		}
 
-		for(int i=0; i<n;i++) 
+		Node actual=list.darCabeza2();
+		for(int i=0; i<list.darLongitud() && actual != null;i++) 
 		{
-			System.out.println(maxcola2.getArreglo().darElemento(i).toString());
+			System.out.println(actual.darE().toString());
+			actual=actual.darSiguiente();
 		}
 	}
 
@@ -358,7 +367,7 @@ public class Modelo {
 		{
 			KeyComparendo llave= (KeyComparendo) iterator.next();
 			Comparendo comparendo=(Comparendo)datosArbol.get(llave);
-			comparendo.setIndicador(3);
+			comparendo.setIndicador(5);
 			if(comparendo.getMediodeteccion().equalsIgnoreCase(mediodeteccion.trim()) && comparendo.getClasevehi().equalsIgnoreCase(clasevehi.trim()) && comparendo.getTiposervi().equalsIgnoreCase(tiposervi.trim()) && comparendo.getLocalidad().equalsIgnoreCase(localidad.trim())) 
 			{
 				maxcola2.agregar(comparendo);
@@ -366,7 +375,7 @@ public class Modelo {
 		}
 
 		Node actual=maxcola2.darMax2();
-		for(int i=0;i<maxcola2.darNumElementos() && actual != null;i++) 
+		for(int i=0;i<N && actual != null;i++) 
 		{
 			System.out.println(actual.darE().toString());
 			actual=actual.darSiguiente();
@@ -377,16 +386,18 @@ public class Modelo {
 	{
 		ListaDoblementeEncadenada maxcola2= new ListaDoblementeEncadenada();
 		Iterable<KeyComparendo> resultado= datosArbol.keys(datosArbol.min(),datosArbol.max());
-
+		int n=0;
 		Iterator<KeyComparendo> iterator= resultado.iterator();
-		while(iterator.hasNext()) 
+		while(iterator.hasNext() && n<N) 
 		{
 			KeyComparendo llave= (KeyComparendo) iterator.next();
 			Comparendo comparendo=(Comparendo)datosArbol.get(llave);
 
 			if( comparendo.getLatitud()<=latitudfi && comparendo.getLatitud()>=latitudin) {
 				System.out.println(comparendo.toString());
+				n++;
 			}
+			
 		}
 
 
@@ -684,6 +695,7 @@ public class Modelo {
 					String[] dmy= objSDF2.format(c.getLlave().getFecha()).split("/");
 					int diacompa=(Integer.parseInt(dmy[2]));
 					int mescompa=(Integer.parseInt(dmy[1]));
+					
 					int diasretrasado=(int) ((fechai.getTime()-c.getLlave().getFecha().getTime())/86400000);;
 
 					
